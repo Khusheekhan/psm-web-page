@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Preventive and Social Medicine</title>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -16,379 +16,488 @@
       --danger:#ff6b6b;
       --warn:#ffd166;
       --success:#06d6a0;
+
       --card:#112240;
-      --text:#ccd6f6;
-      --muted:#8892b0;
-      --shadow:0 12px 40px rgba(0,0,0,.35);
+      --text:#e6f0ff;
+      --muted:#93a4c7;
+      --shadow:0 14px 45px rgba(0,0,0,.38);
       --transition:all .25s ease;
+      --border:1px solid rgba(255,255,255,.10);
+      --ring:0 0 0 3px rgba(100,255,218,.15);
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
     body{
-      font-family:Roboto, sans-serif;
+      font-family:Roboto, system-ui, -apple-system, Segoe UI, sans-serif;
       color:var(--text);
       background:var(--primary);
       background-image:
-        radial-gradient(circle at 10% 20%, rgba(100,255,218,.06) 0%, transparent 22%),
-        radial-gradient(circle at 90% 80%, rgba(0,212,255,.05) 0%, transparent 22%);
+        radial-gradient(circle at 12% 18%, rgba(100,255,218,.08) 0%, transparent 24%),
+        radial-gradient(circle at 88% 80%, rgba(0,212,255,.06) 0%, transparent 22%);
       min-height:100vh;
     }
+
+    a{color:inherit}
+    button, input, textarea{font-family:inherit}
 
     .container{display:flex;min-height:100vh}
 
     /* Sidebar */
     .sidebar{
-      width:300px;
+      width:310px;
       position:fixed; left:0; top:0;
       height:100vh;
-      overflow-y:auto;
-      padding:18px 0;
+      overflow:auto;
+      padding:18px 0 14px;
       background:rgba(10,25,47,.92);
-      border-right:1px solid rgba(255,255,255,.08);
+      border-right:var(--border);
       backdrop-filter:blur(12px);
       z-index:1000;
       transition:var(--transition);
-      pointer-events:auto;
     }
-    .sidebar-header{padding:0 18px 16px;border-bottom:1px solid rgba(100,255,218,.2);margin-bottom:14px}
+    .sidebar-header{padding:0 18px 16px;border-bottom:1px solid rgba(100,255,218,.22);margin-bottom:12px}
     .logo{
       display:flex;align-items:center;gap:10px;
       font-family:Poppins, sans-serif;
-      font-weight:800;font-size:1.7rem;
+      font-weight:800;font-size:1.55rem;
       color:var(--secondary);
-      text-shadow:0 0 10px rgba(100,255,218,.25);
+      text-shadow:0 0 14px rgba(100,255,218,.18);
     }
-    .tagline{margin-left:34px;color:var(--muted);font-size:.9rem;font-weight:300}
+    .logo i{font-size:1.2rem}
+    .tagline{margin-left:34px;color:var(--muted);font-size:.92rem;font-weight:300;line-height:1.3}
 
-    .edit-badge{
-      display:none;
-      margin:10px 18px 6px;
-      padding:8px 12px;border-radius:18px;
-      background:linear-gradient(45deg,#bc13fe,var(--accent));
-      font-weight:800;font-size:.78rem;
-      text-align:center;
-      box-shadow:0 0 10px rgba(188,19,254,.35);
+    .search-wrap{padding:12px 18px 4px}
+    .search{
+      display:flex;align-items:center;gap:10px;
+      background:rgba(17,34,64,.85);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:10px 12px;
     }
-
-    .search-box{padding:10px 18px}
-    .search-box input{
+    .search i{color:rgba(100,255,218,.85)}
+    .search input{
       width:100%;
-      padding:12px 16px;
-      border-radius:28px;
-      border:1px solid rgba(100,255,218,.3);
-      background:rgba(17,34,64,.55);
-      color:var(--text);
+      background:transparent;
+      border:none;
       outline:none;
-      transition:var(--transition);
+      color:var(--text);
+      font-size:.98rem;
     }
-    .search-box input:focus{border-color:var(--accent);box-shadow:0 0 14px rgba(0,212,255,.25)}
+    .search input::placeholder{color:rgba(147,164,199,.75)}
 
-    .nav-menu{list-style:none;padding:0 10px}
-    .nav-item{margin:6px 0;border-radius:12px;overflow:hidden}
+    .nav{
+      list-style:none;
+      padding:6px 8px 10px;
+    }
+    .nav-item{margin:6px 10px}
     .nav-link{
       width:100%;
       display:flex;align-items:center;gap:12px;
-      padding:13px 14px;
-      border:0;
-      background:transparent;
-      color:var(--text);
-      cursor:pointer;
-      text-align:left;
-      border-radius:12px;
-      transition:var(--transition);
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      pointer-events:auto;
-    }
-    .nav-link:hover{background:rgba(100,255,218,.11); color:var(--secondary); transform:translateX(3px)}
-    .nav-link.active{
-      background:rgba(100,255,218,.14);
-      color:var(--secondary);
-      border-left:4px solid var(--accent);
-      box-shadow:0 0 20px rgba(0,212,255,.18);
-    }
-    .nav-link i{width:20px;text-align:center}
-    .nav-title{flex:1}
-
-    .topic-management{
-      display:none;
-      margin:12px 14px 10px;
-      padding:14px;
+      padding:10px 12px;
       border-radius:14px;
-      background:rgba(17,34,64,.86);
-      border:1px solid rgba(100,255,218,.2);
-    }
-    .topic-management.active{display:block}
-    .topic-management h4{
-      font-family:Poppins, sans-serif;
-      color:var(--accent);
-      text-align:center;
-      margin-bottom:10px;
-    }
-    .topic-form{display:flex;gap:10px;flex-wrap:wrap}
-    .topic-form input,.topic-form select{
-      flex:1;min-width:200px;
-      padding:10px 12px;border-radius:10px;
-      border:1px solid rgba(100,255,218,.28);
-      background:rgba(10,25,47,.92);
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(17,34,64,.65);
       color:var(--text);
-      outline:none;
-    }
-    .topic-form input:focus,.topic-form select:focus{border-color:var(--accent);box-shadow:0 0 10px rgba(0,212,255,.2)}
-    .topic-form button{
-      padding:10px 14px;border-radius:10px;border:0;
-      font-weight:900;
-      cursor:pointer;
-      background:linear-gradient(45deg,var(--accent),#00ff9d);
-      color:#001b2a;
-      box-shadow:0 5px 18px rgba(0,212,255,.25);
-    }
-
-    .topic-list-edit{list-style:none;max-height:240px;overflow:auto;margin-top:10px}
-    .topic-edit-item{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:10px 12px;margin-bottom:8px;
-      border-radius:12px;
-      background:rgba(10,25,47,.55);
-      border:1px solid rgba(100,255,218,.12);
-    }
-    .topic-edit-left{display:flex;align-items:center;gap:10px}
-    .topic-actions{display:flex;gap:8px}
-    .mini{
-      border:0;border-radius:10px;
-      padding:7px 10px;
-      color:#fff;
+      text-decoration:none;
       cursor:pointer;
       transition:var(--transition);
+      text-align:left;
     }
-    .mini:hover{transform:scale(1.05)}
-    .mini.edit{background:linear-gradient(45deg,var(--accent),#2a9df4)}
-    .mini.del{background:linear-gradient(45deg,var(--danger),#ff4757)}
+    .nav-link:hover{transform:translateY(-1px);border-color:rgba(100,255,218,.30)}
+    .nav-link.active{border-color:rgba(100,255,218,.55); box-shadow:var(--ring)}
+    .nav-link i{color:rgba(100,255,218,.95); width:18px}
+    .nav-title{flex:1}
+    .nav-actions{display:none; gap:8px}
+    .nav-actions button{
+      background:transparent;border:none;color:rgba(230,240,255,.9);
+      cursor:pointer; padding:6px 8px; border-radius:10px;
+    }
+    .nav-actions button:hover{background:rgba(255,255,255,.08)}
+    .sidebar.editing .nav-actions{display:flex}
 
     .sidebar-footer{
-      padding:14px 18px 6px;
-      border-top:1px solid rgba(100,255,218,.14);
+      padding:12px 18px 8px;
+      border-top:1px solid rgba(255,255,255,.08);
       color:var(--muted);
-      font-size:.82rem;
-      margin-top:10px;
+      font-size:.92rem;
     }
+    .small-note{font-size:.86rem;color:rgba(147,164,199,.85);margin-top:6px;line-height:1.35}
 
     /* Main */
     .main{
-      flex:1;
-      margin-left:300px;
-      padding:26px;
+      margin-left:310px;
+      width:calc(100% - 310px);
       min-height:100vh;
-      position:relative;
-      z-index:1;
-    }
-
-    .header{
-      display:flex;justify-content:space-between;align-items:center;
-      gap:12px;
-      padding-bottom:14px;margin-bottom:18px;
-      border-bottom:1px solid rgba(100,255,218,.18);
-    }
-    .left-head{display:flex;align-items:center;gap:10px}
-    .title{
-      font-family:Poppins, sans-serif;
-      font-weight:800;font-size:2rem;
-      color:var(--secondary);
-      text-shadow:0 0 10px rgba(100,255,218,.2);
-    }
-    .menu-toggle{
-      display:none;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(17,34,64,.85);
-      color:var(--secondary);
-      border-radius:12px;
-      padding:8px 10px;
-      cursor:pointer;
-      font-size:1.2rem;
-    }
-
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{
-      border:0;border-radius:12px;
-      padding:10px 14px;
-      font-weight:900;
-      cursor:pointer;
+      padding:16px 18px 80px;
       transition:var(--transition);
     }
-    .btn.primary{background:linear-gradient(45deg,var(--accent),#00ff9d);color:#001b2a}
-    .btn.warn{background:linear-gradient(45deg,var(--warn),#ffb347);color:#001b2a}
-    .btn.purple{background:linear-gradient(45deg,#bc13fe,#9d4edd);color:#fff}
-    .btn.success{background:linear-gradient(45deg,#00ff9d,#00cc88);color:#001b2a}
-    .btn.danger{background:linear-gradient(45deg,var(--danger),#ff4757);color:#fff}
-    .btn:hover{transform:translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.25)}
+    .header{
+      position:sticky; top:0;
+      padding:12px 10px;
+      background:rgba(10,25,47,.78);
+      backdrop-filter:blur(12px);
+      border:var(--border);
+      border-radius:18px;
+      z-index:900;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+    .left-head{display:flex;align-items:center;gap:12px}
+    .menu-toggle{
+      display:none;
+      background:rgba(17,34,64,.9);
+      border:var(--border);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+    }
+    .title{
+      font-family:Poppins, sans-serif;
+      font-weight:800;
+      letter-spacing:.2px;
+      font-size:1.15rem;
+      color:var(--text);
+    }
+    .actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      border-radius:14px;
+      padding:10px 12px;
+      display:flex; align-items:center; gap:8px;
+      transition:var(--transition);
+      font-weight:700;
+      letter-spacing:.1px;
+      color:#03121f;
+      background:#dbe9ff;
+    }
+    .btn i{opacity:.9}
+    .btn:hover{transform:translateY(-1px)}
+    .btn:active{transform:translateY(0px)}
+    .btn.primary{background:linear-gradient(90deg, var(--secondary), var(--accent));}
+    .btn.success{background:linear-gradient(90deg, var(--success), rgba(6,214,160,.7));}
+    .btn.warn{background:linear-gradient(90deg, var(--warn), rgba(255,209,102,.7));}
+    .btn.danger{background:linear-gradient(90deg, var(--danger), rgba(255,107,107,.75));}
+    .btn.ghost{
+      background:rgba(17,34,64,.75);
+      color:var(--text);
+      border:var(--border);
+    }
+    .btn.ghost:hover{border-color:rgba(100,255,218,.35)}
+
+    .meta-bar{
+      margin-top:12px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 12px;
+      background:rgba(17,34,64,.75);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:999px;
+    }
+    .pill b{color:var(--text)}
+    .pill code{color:rgba(100,255,218,.95)}
 
     .edit-controls{
+      margin-top:14px;
+      padding:12px;
+      border:var(--border);
+      border-radius:18px;
+      background:rgba(17,34,64,.55);
       display:none;
       gap:10px;
       flex-wrap:wrap;
-      padding:12px;
-      border-radius:14px;
-      margin-bottom:14px;
-      background:rgba(17,34,64,.84);
-      border:1px solid rgba(0,212,255,.22);
+      align-items:center;
     }
-    .edit-controls.active{display:flex}
+    .edit-controls .btn{padding:10px 12px}
+    .edit-controls .hint{margin-left:auto;color:var(--muted);font-size:.92rem}
 
-    .card{
-      background:linear-gradient(180deg, rgba(17,34,64,.95), rgba(17,34,64,.80));
-      border:1px solid rgba(255,255,255,.08);
+    .content{
+      margin-top:14px;
+      border:var(--border);
+      background:rgba(17,34,64,.55);
       border-radius:18px;
-      box-shadow:var(--shadow);
-      overflow:hidden;
-      min-height:520px;
-      position:relative;
-    }
-    .card::before{
-      content:"";
-      position:absolute;left:0;top:0;right:0;height:4px;
-      background:linear-gradient(90deg,var(--accent),#bc13fe);
-    }
-    .card-head{
-      display:flex;justify-content:space-between;align-items:center;
       padding:18px;
-      border-bottom:1px solid rgba(100,255,218,.16);
-      gap:10px;
+      box-shadow:var(--shadow);
+      min-height:62vh;
     }
-    .card-head h2{
-      font-family:Poppins, sans-serif;
-      font-size:1.55rem;
-      color:var(--secondary);
-    }
-    .content{padding:18px;line-height:1.85}
-    .content img{
-      max-width:100%;
-      border-radius:12px;
-      margin:10px 0;
-      border:2px solid rgba(100,255,218,.2);
-      cursor:pointer;
-      transition:var(--transition);
-    }
-    .content img:hover{transform:scale(1.02);border-color:rgba(0,212,255,.55)}
-
-    .editable{
-      border:2px dashed rgba(0,212,255,.45);
-      border-radius:14px;
-      padding:14px;
-      min-height:240px;
-      background:rgba(10,25,47,.35);
-      outline:none;
-    }
-    .editable:focus{border-color:rgba(0,212,255,.85);box-shadow:0 0 18px rgba(0,212,255,.15)}
 
     .empty{
       text-align:center;
+      padding:46px 14px;
       color:var(--muted);
-      padding:30px 10px;
     }
-    .empty i{font-size:3rem;color:var(--secondary);margin-bottom:10px}
+    .empty i{font-size:2.4rem;color:rgba(100,255,218,.85);margin-bottom:12px}
+    .empty h3{font-family:Poppins, sans-serif;color:var(--text);margin-bottom:6px}
+
+    /* Topic content styling */
+    .topic h2{
+      font-family:Poppins, sans-serif;
+      font-weight:800;
+      font-size:1.55rem;
+      margin-bottom:8px;
+      color:var(--secondary);
+    }
+    .topic p{color:rgba(230,240,255,.92);line-height:1.6;margin:10px 0}
+    .topic ul{margin:10px 0 10px 18px;line-height:1.6}
+    .topic li{margin:5px 0;color:rgba(230,240,255,.92)}
+    .topic img{
+      width:100%;
+      max-height:320px;
+      object-fit:cover;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      margin-top:12px;
+      background:rgba(10,25,47,.6);
+    }
+    .topic .callout{
+      margin:12px 0;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid rgba(100,255,218,.22);
+      background:rgba(10,25,47,.5);
+    }
+    .topic .callout strong{color:var(--secondary)}
+    .topic details{
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:16px;
+      margin:10px 0;
+      overflow:hidden;
+      background:rgba(10,25,47,.35);
+    }
+    .topic summary{
+      cursor:pointer;
+      list-style:none;
+      padding:12px 14px;
+      font-weight:800;
+      font-family:Poppins, sans-serif;
+      color:rgba(230,240,255,.96);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .topic summary::-webkit-details-marker{display:none}
+    .topic summary:after{
+      content:"\f078";
+      font-family:"Font Awesome 6 Free";
+      font-weight:900;
+      color:rgba(100,255,218,.9);
+      transition:transform .2s ease;
+    }
+    .topic details[open] summary:after{transform:rotate(180deg)}
+    .topic details .inside{padding:12px 14px;border-top:1px solid rgba(255,255,255,.08)}
+    .topic .kpi{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:10px;
+      margin:10px 0 2px;
+    }
+    .kpi .card{
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:16px;
+      background:rgba(17,34,64,.65);
+      padding:12px 12px;
+    }
+    .kpi .card .label{color:var(--muted);font-size:.9rem}
+    .kpi .card .value{margin-top:6px;font-family:Poppins, sans-serif;font-weight:900}
+
+    /* Editable */
+    .editable[contenteditable="true"]{
+      outline:none;
+      border-radius:12px;
+      box-shadow:var(--ring);
+      background:rgba(0,0,0,.12);
+      padding:10px;
+    }
+    .selected-block{
+      outline:2px dashed rgba(255,209,102,.8);
+      border-radius:14px;
+    }
+
+    /* Manage panel */
+    .panel{
+      position:fixed;
+      right:18px;
+      bottom:78px;
+      width:min(420px, calc(100% - 36px));
+      border:var(--border);
+      border-radius:18px;
+      background:rgba(10,25,47,.92);
+      backdrop-filter:blur(12px);
+      box-shadow:var(--shadow);
+      padding:14px;
+      display:none;
+      z-index:1300;
+    }
+    .panel h3{
+      font-family:Poppins, sans-serif;
+      font-weight:900;
+      margin-bottom:8px;
+      color:var(--secondary);
+    }
+    .panel .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .panel input, .panel textarea{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(17,34,64,.75);
+      color:var(--text);
+      padding:10px 12px;
+      outline:none;
+    }
+    .panel input:focus, .panel textarea:focus{box-shadow:var(--ring); border-color:rgba(100,255,218,.35)}
+    .panel label{display:block;margin-top:10px;color:var(--muted);font-size:.92rem}
+    .panel .list{
+      margin-top:10px;
+      max-height:220px;
+      overflow:auto;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      background:rgba(17,34,64,.55);
+    }
+    .panel .item{
+      display:flex;align-items:center;gap:10px;
+      padding:10px 12px;
+      border-bottom:1px solid rgba(255,255,255,.07);
+    }
+    .panel .item:last-child{border-bottom:none}
+    .panel .item .name{flex:1}
+    .panel .item .mini{
+      border:none;background:transparent;color:var(--text);
+      cursor:pointer;padding:6px 8px;border-radius:10px;
+    }
+    .panel .item .mini:hover{background:rgba(255,255,255,.08)}
+    .panel .muted{color:var(--muted);font-size:.9rem;margin-top:8px;line-height:1.35}
 
     /* Modal */
     .modal{
-      position:fixed;inset:0;
-      background:rgba(0,0,0,.65);
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.55);
       display:none;
-      align-items:center;justify-content:center;
-      z-index:3000;
+      align-items:center;
+      justify-content:center;
+      z-index:2000;
+      padding:16px;
     }
+    .modal.show{display:flex}
     .modal .box{
-      width:100%;max-width:420px;
-      background:#102238;
-      border:1px solid rgba(100,255,218,.22);
-      border-radius:16px;
+      width:min(520px, 100%);
+      background:rgba(10,25,47,.96);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;
+      padding:16px;
       box-shadow:var(--shadow);
-      padding:18px;
     }
-    .modal h3{font-family:Poppins, sans-serif;color:var(--secondary);margin-bottom:8px}
-    .modal p{color:var(--muted);font-size:.92rem;margin-bottom:12px}
-    .modal label{color:var(--muted);font-size:.9rem}
-    .modal input{
+    .modal h3{
+      font-family:Poppins, sans-serif;
+      font-weight:900;
+      margin-bottom:10px;
+      color:var(--secondary);
+    }
+    .modal p{color:var(--muted);line-height:1.5;margin-bottom:10px}
+    .modal label{display:block;margin-top:10px;color:var(--muted);font-size:.92rem}
+    .modal input, .modal textarea, .modal select{
       width:100%;
-      margin-top:6px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid rgba(100,255,218,.25);
-      background:rgba(10,25,47,.92);
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(17,34,64,.75);
       color:var(--text);
+      padding:10px 12px;
       outline:none;
     }
-    .modal .row{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+    .modal input:focus, .modal textarea:focus{box-shadow:var(--ring); border-color:rgba(100,255,218,.35)}
+    .modal .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .modal .row .btn{flex:1;justify-content:center}
 
     /* Toast */
     .toast{
-      position:fixed;right:22px;bottom:22px;
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background:rgba(17,34,64,.95);
+      border:1px solid rgba(255,255,255,.12);
+      padding:10px 14px;
+      border-radius:999px;
       display:none;
-      padding:12px 14px;
-      border-radius:14px;
-      font-weight:900;
-      z-index:4000;
-      box-shadow:0 0 10px var(--accent), 0 0 18px var(--accent);
-      color:#001b2a;
-      background:linear-gradient(45deg,var(--success),var(--accent));
-      max-width:360px;
+      align-items:center;
+      gap:10px;
+      z-index:2500;
+      box-shadow:var(--shadow);
+      color:rgba(230,240,255,.95);
     }
-    .toast.error{background:linear-gradient(45deg,var(--danger),#ff4757);color:#fff;box-shadow:0 0 12px rgba(255,107,107,.5)}
-    .toast.warn{background:linear-gradient(45deg,var(--warn),#ffb347);color:#001b2a;box-shadow:0 0 12px rgba(255,209,102,.35)}
+    .toast.show{display:flex}
+    .toast i{color:var(--secondary)}
 
-    /* Mobile */
-    @media (max-width: 992px){
-      .sidebar{width:280px; transform:translateX(-280px)}
-      .sidebar.active{transform:translateX(0)}
-      .main{margin-left:0}
+    /* Floating feedback button */
+    .fab{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:1800;
+      border-radius:999px;
+      padding:12px 14px;
+      box-shadow:var(--shadow);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
       .menu-toggle{display:inline-flex}
-      .header{flex-direction:column;align-items:flex-start}
-      .actions{width:100%}
-      .topic-form{flex-direction:column}
+      .sidebar{
+        transform:translateX(-102%);
+        width:min(320px, 84vw);
+      }
+      .sidebar.active{transform:translateX(0)}
+      .main{
+        margin-left:0;
+        width:100%;
+      }
+      .kpi{grid-template-columns:1fr}
+      .header{border-radius:16px}
     }
   </style>
 </head>
-
 <body>
   <div class="container">
-    <aside class="sidebar" id="sidebar">
+
+    <aside class="sidebar" id="sidebar" aria-label="Topic navigation">
       <div class="sidebar-header">
-        <div class="logo"><i class="fas fa-heartbeat"></i><span>PS Medicine</span></div>
-        <div class="tagline">Preventive & Social Medicine Education</div>
-	<div class="subtagline">Concept by Khushee Khan</div>
+        <div class="logo"><i class="fas fa-shield-heart"></i> PSM</div>
+        <div class="tagline">Preventive and Social Medicine • Simple, evidence‑based health education</div>
       </div>
 
-      <div class="edit-badge" id="editBadge"><i class="fas fa-edit"></i> EDIT MODE</div>
-
-      <div class="search-box">
-        <input id="searchInput" type="text" placeholder="Search topics..." />
-      </div>
-
-      <ul class="nav-menu" id="navMenu"></ul>
-
-      <div class="topic-management" id="topicManagement">
-        <h4><i class="fas fa-plus-circle"></i> Add / Manage Topics</h4>
-
-        <div class="topic-form">
-          <input id="newTopicName" type="text" placeholder="New topic name (press Enter)" />
-          <select id="newTopicIcon">
-            <option value="fas fa-apple-alt">🍎 Nutrition</option>
-            <option value="fas fa-balance-scale">⚖️ Malnutrition</option>
-            <option value="fas fa-tree">🌳 Environment</option>
-          </select>
-          <button id="addTopicBtn"><i class="fas fa-plus"></i> Add Topic</button>
+      <div class="search-wrap">
+        <div class="search" role="search">
+          <i class="fas fa-magnifying-glass"></i>
+          <input id="searchInput" type="text" placeholder="Search topics (e.g., HIV, first aid)..." aria-label="Search topics">
         </div>
-
-        <ul class="topic-list-edit" id="topicListEdit"></ul>
       </div>
+
+      <ul class="nav" id="navMenu" aria-label="Topics list"></ul>
 
       <div class="sidebar-footer">
-        <div>Last updated: <span id="lastUpdated">Never</span></div>
-        <div>Total topics: <span id="topicCount">0</span></div>
+        <div class="pill"><i class="fas fa-layer-group"></i> Total topics: <b id="topicCount">0</b></div>
+        <div class="small-note">
+          Tip: Use “Enter Edit Mode” to update content on this device (saved in browser storage).
+        </div>
       </div>
     </aside>
 
     <main class="main">
-      <header class="header">
+      <header class="header" role="banner">
         <div class="left-head">
           <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
             <i class="fas fa-bars"></i>
@@ -396,120 +505,1465 @@
           <div class="title" id="pageTitle">Preventive and Social Medicine</div>
         </div>
 
-        <div class="actions">
+        <div class="actions" aria-label="Actions">
           <button class="btn primary" id="loginBtn"><i class="fas fa-lock"></i> Enter Edit Mode</button>
-          <button class="btn success" id="saveAllBtn" style="display:none;"><i class="fas fa-save"></i> Save All</button>
+          <button class="btn ghost" id="manageBtn" style="display:none;"><i class="fas fa-screwdriver-wrench"></i> Manage Topics</button>
+          <button class="btn ghost" id="exportBtn" style="display:none;"><i class="fas fa-file-export"></i> Export</button>
+          <button class="btn ghost" id="importBtn" style="display:none;"><i class="fas fa-file-import"></i> Import</button>
+          <button class="btn success" id="saveAllBtn" style="display:none;"><i class="fas fa-floppy-disk"></i> Save All</button>
           <button class="btn warn" id="previewBtn" style="display:none;"><i class="fas fa-eye"></i> Preview</button>
+          <button class="btn danger" id="logoutBtn" style="display:none;"><i class="fas fa-right-from-bracket"></i> Exit</button>
         </div>
       </header>
 
-      <div class="edit-controls" id="editControls">
-        <button class="btn success" id="saveBtn"><i class="fas fa-save"></i> Save</button>
-        <button class="btn danger" id="cancelBtn"><i class="fas fa-times"></i> Cancel</button>
-        <button class="btn primary" id="addSectionBtn"><i class="fas fa-plus"></i> Add Section</button>
-        <button class="btn warn" id="deleteSectionBtn"><i class="fas fa-trash"></i> Delete Block</button>
-        <button class="btn primary" id="insertImageBtn"><i class="fas fa-image"></i> Insert Image</button>
+      <div class="meta-bar" aria-label="Status">
+        <div class="pill"><i class="fas fa-circle-info"></i> Mode: <b id="modePill">View</b></div>
+        <div class="pill"><i class="fas fa-database"></i> Storage: <code id="storagePill">local</code></div>
+        <div class="pill"><i class="fas fa-clock"></i> Last save: <b id="lastSavePill">—</b></div>
       </div>
 
-      <section class="card">
-        <div class="card-head">
-          <h2 id="currentTopicTitle">Welcome</h2>
-          <button class="btn purple" id="editTopicBtn" style="display:none;">
-            <i class="fas fa-edit"></i> Edit Topic
-          </button>
+      <div class="edit-controls" id="editControls" aria-label="Editor controls">
+        <button class="btn success" id="saveBtn"><i class="fas fa-save"></i> Save Topic</button>
+        <button class="btn danger" id="cancelBtn"><i class="fas fa-times"></i> Cancel</button>
+        <button class="btn primary" id="addBlockBtn"><i class="fas fa-plus"></i> Add Block</button>
+        <button class="btn warn" id="deleteBlockBtn"><i class="fas fa-trash"></i> Delete Selected Block</button>
+        <button class="btn ghost" id="insertImageBtn"><i class="fas fa-image"></i> Insert Image</button>
+        <div class="hint">Click a paragraph/section to select a block, then edit.</div>
+      </div>
+
+      <div class="content" id="contentArea" aria-live="polite">
+        <div class="empty">
+          <i class="fas fa-book-medical"></i>
+          <h3>Welcome</h3>
+          <p>Select a topic from the sidebar to start learning.</p>
         </div>
-        <div class="content" id="contentArea">
-          <div class="empty">
-            <i class="fas fa-book-medical"></i>
-            <h3>Welcome</h3>
-            <p>Select a topic from the sidebar.</p>
-          </div>
-        </div>
-      </section>
+      </div>
     </main>
+
+    <!-- Manage panel -->
+    <div class="panel" id="managePanel" aria-label="Manage topics panel">
+      <h3>Manage Topics</h3>
+
+      <label for="newTopicTitle">Add new topic</label>
+      <input id="newTopicTitle" type="text" placeholder="Topic title (e.g., Diabetes awareness)" />
+      <label for="newTopicIcon">Icon (Font Awesome class)</label>
+      <input id="newTopicIcon" type="text" placeholder="e.g., fas fa-heartbeat" />
+      <div class="row">
+        <button class="btn success" id="addTopicBtn"><i class="fas fa-plus"></i> Add Topic</button>
+        <button class="btn ghost" id="closeManageBtn"><i class="fas fa-xmark"></i> Close</button>
+      </div>
+
+      <div class="muted">
+        Rename or delete topics below. Deleting removes it from this device only.
+      </div>
+
+      <div class="list" id="manageList" aria-label="Topics list for management"></div>
+    </div>
+
   </div>
 
-  <!-- Login Modal -->
-  <div class="modal" id="loginModal">
+  <!-- Login modal -->
+  <div class="modal" id="loginModal" aria-hidden="true">
     <div class="box">
       <h3>Enter Edit Mode</h3>
-      <p>Default password: <strong>admin123</strong></p>
+      <p>Edit mode allows adding/removing topics and updating content (saved locally in your browser).</p>
+      <p>Default password: <b>admin123</b> (change it in code if needed).</p>
       <label for="modalPassword">Password</label>
       <input id="modalPassword" type="password" placeholder="Enter password" />
       <div class="row">
-        <button class="btn primary" id="modalLoginBtn">Login</button>
-        <button class="btn danger" id="modalCancelBtn">Cancel</button>
+        <button class="btn primary" id="modalLoginBtn"><i class="fas fa-key"></i> Login</button>
+        <button class="btn danger" id="modalCancelBtn"><i class="fas fa-xmark"></i> Cancel</button>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toast"><span id="toastMsg">Saved</span></div>
+  <!-- Import modal -->
+  <div class="modal" id="importModal" aria-hidden="true">
+    <div class="box">
+      <h3>Import Topics (JSON)</h3>
+      <p>Paste exported JSON below to restore/update topics on this device.</p>
+      <label for="importText">JSON</label>
+      <textarea id="importText" rows="10" placeholder='{"topics":{...}}'></textarea>
+      <div class="row">
+        <button class="btn success" id="doImportBtn"><i class="fas fa-check"></i> Import</button>
+        <button class="btn danger" id="closeImportBtn"><i class="fas fa-xmark"></i> Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export modal -->
+  <div class="modal" id="exportModal" aria-hidden="true">
+    <div class="box">
+      <h3>Export Topics (JSON)</h3>
+      <p>Copy this JSON and save it (or share with other educators).</p>
+      <label for="exportText">JSON</label>
+      <textarea id="exportText" rows="10" readonly></textarea>
+      <div class="row">
+        <button class="btn primary" id="copyExportBtn"><i class="fas fa-copy"></i> Copy</button>
+        <button class="btn danger" id="closeExportBtn"><i class="fas fa-xmark"></i> Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Insert image modal -->
+  <div class="modal" id="imageModal" aria-hidden="true">
+    <div class="box">
+      <h3>Insert Image</h3>
+      <p>Add an image URL (e.g., a poster, infographic, or free stock image link).</p>
+      <label for="imgUrl">Image URL</label>
+      <input id="imgUrl" type="text" placeholder="https://example.com/image.jpg" />
+      <label for="imgAlt">Alt text (important for accessibility)</label>
+      <input id="imgAlt" type="text" placeholder="Describe the image in 1 line" />
+      <div class="row">
+        <button class="btn success" id="insertImgBtn"><i class="fas fa-image"></i> Insert</button>
+        <button class="btn danger" id="closeImgBtn"><i class="fas fa-xmark"></i> Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback modal -->
+  <button class="btn primary fab" id="feedbackOpenBtn" aria-label="Open feedback form">
+    <i class="fas fa-comment-dots"></i> Feedback
+  </button>
+
+  <div class="modal" id="feedbackModal" aria-hidden="true">
+    <div class="box">
+      <h3>Feedback / Suggestion</h3>
+      <p>Share a suggestion, report an error, or propose a new topic.</p>
+      <label for="fbName">Name (optional)</label>
+      <input id="fbName" type="text" placeholder="Your name (optional)" />
+      <label for="fbRole">Audience</label>
+      <select id="fbRole">
+        <option value="general">General public</option>
+        <option value="student">Student</option>
+        <option value="health_worker">Health worker</option>
+        <option value="educator">Educator</option>
+      </select>
+      <label for="fbText">Message</label>
+      <textarea id="fbText" rows="6" placeholder="Write your feedback..."></textarea>
+      <div class="row">
+        <button class="btn success" id="fbSendBtn"><i class="fas fa-paper-plane"></i> Submit</button>
+        <button class="btn danger" id="fbCloseBtn"><i class="fas fa-xmark"></i> Close</button>
+      </div>
+      <p class="small-note">This demo stores feedback on this device only (no server).</p>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <i class="fas fa-circle-check"></i>
+    <span id="toastMsg">Saved</span>
+  </div>
 
   <script>
-    const STORAGE_CONTENT = "psmContent_v4";
-    const STORAGE_AUTH = "psmAuth_v4";
-    const STORAGE_LAST = "psmLastSaved_v4";
+    /***************
+     * Storage keys
+     ***************/
+    const STORAGE_CONTENT = "psmContent_v5";
+    const STORAGE_AUTH    = "psmAuth_v5";
+    const STORAGE_LAST    = "psmLastSaved_v5";
+    const STORAGE_FEEDBACK= "psmFeedback_v1";
 
+    /***************
+     * App state
+     ***************/
     const state = {
       currentTopic: null,
       editMode: false,
       isAuthenticated: false,
-      topics: {}
+      topics: {},
+      draftHtml: null,
+      selectedBlock: null
     };
 
-    // All topics have a blank <img src=""> slot
+    /***************
+     * Default topics (educational content)
+     * Using <details> for expandable "Read more".
+     ***************/
     const defaultTopics = {
-      nutrition: {
-        id: "nutrition",
-        title: "Nutrition and Health",
-        icon: "fas fa-apple-alt",
+      nutrition_age_gender: {
+        id: "nutrition_age_gender",
+        title: "Nutrition by Age & Gender",
+        icon: "fas fa-apple-whole",
         content: `
-          <h3>Nutrition and Health</h3>
-          <p>Nutrition supports growth, immunity and development.</p>
-          <ul>
-            <li>Balanced diet</li>
-            <li>Hydration</li>
-            <li>Regular meals</li>
-          </ul>
-          <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Nutrition image">
+          <div class="topic">
+            <h2>Nutrition and Health (Age & Gender)</h2>
+            <p>Good nutrition supports growth, learning, immunity, and healthy aging.</p>
+
+            <div class="kpi">
+              <div class="card"><div class="label">Daily focus</div><div class="value">Balanced plate</div></div>
+              <div class="card"><div class="label">Key habits</div><div class="value">Hydration + sleep</div></div>
+              <div class="card"><div class="label">Safety</div><div class="value">Food hygiene</div></div>
+            </div>
+
+            <details open>
+              <summary>Infants (0–12 months)</summary>
+              <div class="inside">
+                <ul>
+                  <li>Exclusive breastfeeding for the first 6 months when possible; start complementary foods after 6 months.</li>
+                  <li>Choose soft, safe, iron‑rich foods; feed patiently and regularly.</li>
+                  <li>Maintain hygiene: clean hands, clean utensils, safe water.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Children (1–9 years)</summary>
+              <div class="inside">
+                <ul>
+                  <li>Offer a variety: grains/roti/rice, pulses/eggs/milk, vegetables, fruits, healthy fats.</li>
+                  <li>Limit packaged snacks and sugary drinks; promote outdoor play and sleep.</li>
+                  <li>School tiffin: add fruit + protein (nuts/roasted chana/egg/curd).</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Adolescents</summary>
+              <div class="inside">
+                <ul>
+                  <li>High demand for energy, protein, and micronutrients due to rapid growth.</li>
+                  <li>Encourage iron‑rich foods (especially for girls), calcium sources, and regular meals.</li>
+                  <li>Support healthy body image; avoid crash diets and unsafe supplements.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Adults</summary>
+              <div class="inside">
+                <ul>
+                  <li>Prefer whole grains, pulses/legumes, vegetables, fruits, nuts; reduce excess salt, sugar, and deep-fried foods.</li>
+                  <li>Be active most days; manage stress; avoid tobacco; limit alcohol.</li>
+                  <li>Maintain a healthy waistline with portion control and consistent routines.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Elderly</summary>
+              <div class="inside">
+                <ul>
+                  <li>Ensure enough protein (dal/curd/eggs/fish/soy) and fluids.</li>
+                  <li>Watch for unintentional weight loss, poor appetite, dental problems, constipation.</li>
+                  <li>Sunlight + safe activity supports bone and mental health; prevent falls.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Gender-specific needs</summary>
+              <div class="inside">
+                <ul>
+                  <li>Women: iron needs may be higher due to menstruation; focus on iron + vitamin C foods.</li>
+                  <li>Pregnancy/lactation: extra energy, protein, iron, folate and calcium as advised by healthcare providers.</li>
+                  <li>Men: avoid excess alcohol; focus on heart health (fiber, activity, sleep).</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="callout">
+              <strong>Simple daily plate idea:</strong> Half vegetables + fruits, one quarter grains, one quarter protein (dal/eggs/curd/fish/soy), plus water.
+            </div>
+
+            <img src="" alt="Nutrition infographic (add an image URL in edit mode)">
+          </div>
         `
       },
+
       malnutrition: {
         id: "malnutrition",
         title: "Malnutrition",
-        icon: "fas fa-balance-scale",
+        icon: "fas fa-scale-balanced",
         content: `
-          <h3>Malnutrition</h3>
-          <p>Includes both undernutrition and overnutrition.</p>
-          <img src="https://plus.unsplash.com/premium_photo-1661427350998-cfbf5e6f287f?q=80&w=1174&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Malnutrition image">
+          <div class="topic">
+            <h2>Malnutrition</h2>
+            <p>Malnutrition includes both undernutrition and overnutrition.</p>
+
+            <details open>
+              <summary>Undernutrition: causes, signs, prevention</summary>
+              <div class="inside">
+                <ul>
+                  <li>Causes: low food intake, repeated infections, poor feeding practices, poverty, poor sanitation.</li>
+                  <li>Signs: low weight, stunting, fatigue, frequent illness, swelling (in severe cases).</li>
+                  <li>Prevention: balanced diet, immunization, safe water, hygiene, deworming as advised, early care-seeking.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Overnutrition: risks, prevention</summary>
+              <div class="inside">
+                <ul>
+                  <li>Risks: obesity, diabetes, heart disease, fatty liver, joint problems.</li>
+                  <li>Drivers: sedentary lifestyle, sugary drinks, ultra‑processed foods, irregular sleep, stress eating.</li>
+                  <li>Prevention: portion control, daily physical activity, healthier snacks, regular sleep.</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="callout">
+              <strong>Remember:</strong> Children can have both undernutrition and obesity risk—focus on quality foods and activity, not only calories.
+            </div>
+            <img src="" alt="Malnutrition visual (add an image URL)">
+          </div>
         `
       },
-      environment: {
-        id: "environment",
-        title: "Environment and Health",
-        icon: "fas fa-tree",
+
+      obstetrics_peds_geriatrics: {
+        id: "obstetrics_peds_geriatrics",
+        title: "Obstetrics, Paediatrics & Geriatrics",
+        icon: "fas fa-people-roof",
         content: `
-          <h3>Environment and Health</h3>
-          <p>Air, water and sanitation affect health outcomes.</p>
-          <img src="https://plus.unsplash.com/premium_photo-1663100069438-06ac0c51a240?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Environment image">
+          <div class="topic">
+            <h2>Obstetrics, Paediatrics, and Geriatrics</h2>
+            <p>Health needs change across life stages. Prevention and early care make outcomes better.</p>
+
+            <details open>
+              <summary>Maternal health & antenatal care</summary>
+              <div class="inside">
+                <ul>
+                  <li>Register early for antenatal care; attend recommended check-ups.</li>
+                  <li>Monitor blood pressure, blood sugar (if advised), anemia; take supplements as prescribed.</li>
+                  <li>Seek urgent care for danger signs (bleeding, severe headache, blurred vision, severe swelling, reduced fetal movements).</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Child growth & development</summary>
+              <div class="inside">
+                <ul>
+                  <li>Track weight/height and milestones; ask about feeding difficulties early.</li>
+                  <li>Keep immunization up to date; ensure safe play and injury prevention.</li>
+                  <li>Support mental and emotional development: talk, play, read, and encourage social interaction.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Healthy aging & elderly care</summary>
+              <div class="inside">
+                <ul>
+                  <li>Regular checks for BP, diabetes, vision/hearing, and medication review.</li>
+                  <li>Prevent falls: good lighting, remove loose rugs, safe footwear, strength/balance exercises.</li>
+                  <li>Address loneliness and depression; maintain social connection and purpose.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="Maternal, child, and elderly care visual (add an image URL)">
+          </div>
+        `
+      },
+
+      environment_health: {
+        id: "environment_health",
+        title: "Environment & Health",
+        icon: "fas fa-seedling",
+        content: `
+          <div class="topic">
+            <h2>Environment and Health</h2>
+            <p>Clean air, safe water, good sanitation, and safe housing reduce many diseases.</p>
+
+            <details open>
+              <summary>Environmental risk factors</summary>
+              <div class="inside">
+                <ul>
+                  <li>Air pollution (traffic, smoke), unsafe drinking water, chemical exposures, unsafe food.</li>
+                  <li>Indoor air pollution from solid fuels and poor ventilation can harm lungs.</li>
+                  <li>Noise, overcrowding, and poor housing can affect physical and mental health.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Climate change and health</summary>
+              <div class="inside">
+                <ul>
+                  <li>Heat waves can cause dehydration and heat stroke; protect outdoor workers.</li>
+                  <li>Extreme weather affects injuries, mental health, and access to healthcare.</li>
+                  <li>Changing climate can influence mosquito‑borne disease patterns.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Sanitation and hygiene</summary>
+              <div class="inside">
+                <ul>
+                  <li>Handwashing with soap reduces diarrheal and respiratory infections.</li>
+                  <li>Use safe toilets; keep surroundings clean; manage waste safely.</li>
+                  <li>Store drinking water safely and clean containers regularly.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="Sanitation and hygiene visual (add an image URL)">
+          </div>
+        `
+      },
+
+      biomedical_waste: {
+        id: "biomedical_waste",
+        title: "Hospital Waste Management",
+        icon: "fas fa-trash-can",
+        content: `
+          <div class="topic">
+            <h2>Hospital (Biomedical) Waste Management</h2>
+            <p>Biomedical waste must be handled safely to protect healthcare workers, patients, and the environment.</p>
+
+            <details open>
+              <summary>Types of biomedical waste</summary>
+              <div class="inside">
+                <ul>
+                  <li>Sharps: needles, blades.</li>
+                  <li>Infectious waste: soiled dressings, lab waste.</li>
+                  <li>Pharmaceutical/chemical waste: expired medicines, disinfectants.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Segregation and disposal methods</summary>
+              <div class="inside">
+                <ul>
+                  <li>Segregate at the point of generation using labeled/color‑coded containers (as per local rules).</li>
+                  <li>Use puncture‑proof sharps containers; never recap needles unnecessarily.</li>
+                  <li>Follow facility protocols for transport, treatment, and final disposal.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Why compliance matters</summary>
+              <div class="inside">
+                <ul>
+                  <li>Prevents needle‑stick injuries and infections.</li>
+                  <li>Reduces environmental contamination and community risk.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="Biomedical waste segregation infographic (add an image URL)">
+          </div>
+        `
+      },
+
+      mental_health: {
+        id: "mental_health",
+        title: "Mental Health",
+        icon: "fas fa-brain",
+        content: `
+          <div class="topic">
+            <h2>Mental Health</h2>
+            <p>Mental health is part of overall health. Seeking help is a sign of strength, not weakness.</p>
+
+            <details open>
+              <summary>Common conditions</summary>
+              <div class="inside">
+                <ul>
+                  <li>Anxiety disorders, depression, substance use disorders.</li>
+                  <li>Severe conditions like bipolar disorder or psychosis need professional care.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Stress management and coping</summary>
+              <div class="inside">
+                <ul>
+                  <li>Sleep routine, physical activity, balanced meals, and limiting alcohol/substances.</li>
+                  <li>Simple practices: deep breathing, journaling, mindfulness, time management.</li>
+                  <li>Talk to trusted people; seek counseling if stress affects daily life.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Reducing stigma and seeking help</summary>
+              <div class="inside">
+                <ul>
+                  <li>Avoid labels like “mad/weak”; use respectful language.</li>
+                  <li>If someone talks about self-harm, take it seriously and seek urgent help.</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="callout">
+              <strong>Urgent:</strong> If there is risk of self-harm, contact local emergency services or a nearby hospital immediately.
+            </div>
+
+            <img src="" alt="Mental health awareness visual (add an image URL)">
+          </div>
+        `
+      },
+
+      family_planning: {
+        id: "family_planning",
+        title: "Family Planning",
+        icon: "fas fa-people-group",
+        content: `
+          <div class="topic">
+            <h2>Family Planning</h2>
+            <p>Family planning helps individuals and couples choose if/when to have children, supporting health and wellbeing.</p>
+
+            <details open>
+              <summary>Temporary methods</summary>
+              <div class="inside">
+                <ul>
+                  <li>Condoms (also reduce STI risk).</li>
+                  <li>Oral contraceptive pills (use under guidance).</li>
+                  <li>IUD/Cu‑T, injectables, and other options depending on availability and eligibility.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Permanent methods</summary>
+              <div class="inside">
+                <ul>
+                  <li>Vasectomy (male sterilization): simple procedure, does not reduce masculinity.</li>
+                  <li>Tubectomy (female sterilization): permanent option after counseling.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Benefits</summary>
+              <div class="inside">
+                <ul>
+                  <li>Reduces unintended pregnancies; supports spacing between births.</li>
+                  <li>Improves maternal and child health outcomes when pregnancies are planned.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Myths vs facts</summary>
+              <div class="inside">
+                <ul>
+                  <li><b>Myth:</b> Contraception causes permanent infertility. <b>Fact:</b> Most reversible methods stop working after discontinuation.</li>
+                  <li><b>Myth:</b> Vasectomy affects sexual performance. <b>Fact:</b> It prevents sperm in semen; sexual function remains.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="Family planning awareness poster (add an image URL)">
+          </div>
+        `
+      },
+
+      menstrual_hygiene: {
+        id: "menstrual_hygiene",
+        title: "Menstrual Hygiene",
+        icon: "fas fa-droplet",
+        content: `
+          <div class="topic">
+            <h2>Menstrual Hygiene</h2>
+            <p>Menstruation is normal. Safe hygiene reduces infections and supports dignity and comfort.</p>
+
+            <details open>
+              <summary>Menstrual health education</summary>
+              <div class="inside">
+                <ul>
+                  <li>Teach that periods are a natural body process, not “dirty”.</li>
+                  <li>Explain cycle basics, normal variation, and when to seek help (very heavy bleeding, severe pain, irregular cycles).</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Hygiene practices</summary>
+              <div class="inside">
+                <ul>
+                  <li>Use clean pads/cloth; change regularly (every 4–6 hours or as needed).</li>
+                  <li>Wash hands before/after changing; bathe as usual.</li>
+                  <li>Dispose pads safely; wash/dry reusable cloth in sunlight.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Addressing stigma and taboos</summary>
+              <div class="inside">
+                <ul>
+                  <li>Encourage respectful conversation in families and schools.</li>
+                  <li>Support access to toilets, water, and disposal bins.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="Menstrual hygiene infographic (add an image URL)">
+          </div>
+        `
+      },
+
+      pcos_myths: {
+        id: "pcos_myths",
+        title: "PCOS/PCOD Myths",
+        icon: "fas fa-venus",
+        content: `
+          <div class="topic">
+            <h2>Misconceptions Related to PCOS/PCOD</h2>
+            <p>PCOS is common and manageable. Correct information reduces fear and stigma.</p>
+
+            <details open>
+              <summary>Common myths</summary>
+              <div class="inside">
+                <ul>
+                  <li><b>Myth:</b> PCOS means you can never get pregnant.</li>
+                  <li><b>Myth:</b> PCOS happens only because of “bad lifestyle”.</li>
+                  <li><b>Myth:</b> Treatment is only hormones forever.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Scientific facts (simple)</summary>
+              <div class="inside">
+                <ul>
+                  <li>PCOS involves hormone imbalance and can affect periods, skin/hair, and metabolism.</li>
+                  <li>Many people conceive with lifestyle changes and medical support when needed.</li>
+                  <li>Long-term care may include nutrition, activity, sleep, stress reduction, and medicines as advised.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Lifestyle and medical management</summary>
+              <div class="inside">
+                <ul>
+                  <li>Healthy weight (if needed), regular activity, and balanced diet can improve symptoms.</li>
+                  <li>Consult a qualified clinician for irregular cycles, infertility concerns, or severe symptoms.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="PCOS awareness visual (add an image URL)">
+          </div>
+        `
+      },
+
+      myths_taboos_awareness: {
+        id: "myths_taboos_awareness",
+        title: "Myths, Taboos & Awareness",
+        icon: "fas fa-comments",
+        content: `
+          <div class="topic">
+            <h2>Myths, Taboos, and Lack of Awareness</h2>
+            <p>Misconceptions can delay care and increase suffering. Community education improves health-seeking behavior.</p>
+
+            <details open>
+              <summary>Common cultural misconceptions</summary>
+              <div class="inside">
+                <ul>
+                  <li>“Vaccines cause infertility.”</li>
+                  <li>“TB or HIV is a punishment.”</li>
+                  <li>“Mental illness is not a real illness.”</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Impact on health-seeking behavior</summary>
+              <div class="inside">
+                <ul>
+                  <li>Delays diagnosis and treatment.</li>
+                  <li>Promotes unsafe home remedies and misinformation.</li>
+                  <li>Increases stigma and discrimination.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Awareness strategies</summary>
+              <div class="inside">
+                <ul>
+                  <li>Use local language, respectful messaging, and community leaders.</li>
+                  <li>Share verified information, simple visuals, and real stories.</li>
+                  <li>Promote “ask a health worker/doctor” before believing social media posts.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="Community awareness visual (add an image URL)">
+          </div>
+        `
+      },
+
+      communicable_diseases: {
+        id: "communicable_diseases",
+        title: "Communicable Diseases",
+        icon: "fas fa-virus",
+        content: `
+          <div class="topic">
+            <h2>Communicable Diseases</h2>
+            <p>These diseases spread from one person to another (directly or indirectly). Prevention is powerful.</p>
+
+            <details open>
+              <summary>Modes of transmission</summary>
+              <div class="inside">
+                <ul>
+                  <li>Airborne/droplets (cough/sneeze), contact (hands/surfaces), food/water, blood/sexual contact, mosquitoes.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Prevention and control</summary>
+              <div class="inside">
+                <ul>
+                  <li>Hand hygiene, safe water, safe food, sanitation, and good ventilation.</li>
+                  <li>Use masks when advised, stay home when ill, and seek early care for severe symptoms.</li>
+                  <li>Vector control: prevent mosquito breeding, use nets/repellents.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Immunization awareness</summary>
+              <div class="inside">
+                <ul>
+                  <li>Vaccines prevent serious illnesses and protect communities.</li>
+                  <li>Follow local immunization schedules and booster recommendations.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="Immunization / prevention visual (add an image URL)">
+          </div>
+        `
+      },
+
+      obesity: {
+        id: "obesity",
+        title: "Obesity",
+        icon: "fas fa-person",
+        content: `
+          <div class="topic">
+            <h2>Obesity</h2>
+            <p>Obesity is excess body fat that can increase health risks. It is influenced by diet, activity, sleep, stress, and genetics.</p>
+
+            <details open>
+              <summary>Causes and risk factors</summary>
+              <div class="inside">
+                <ul>
+                  <li>High-calorie ultra‑processed foods, sugary drinks, large portions.</li>
+                  <li>Low physical activity, long screen time, poor sleep.</li>
+                  <li>Stress, some medicines, hormonal factors.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Health risks</summary>
+              <div class="inside">
+                <ul>
+                  <li>Diabetes, high BP, heart disease, fatty liver, sleep apnea, joint pain.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Prevention and management</summary>
+              <div class="inside">
+                <ul>
+                  <li>Regular activity, balanced diet, reduced sugary drinks, mindful eating.</li>
+                  <li>Set realistic goals; track habits; seek professional guidance if needed.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="Healthy lifestyle visual (add an image URL)">
+          </div>
+        `
+      },
+
+      hypertension: {
+        id: "hypertension",
+        title: "Hypertension (High BP)",
+        icon: "fas fa-heart-pulse",
+        content: `
+          <div class="topic">
+            <h2>Hypertension (High Blood Pressure)</h2>
+            <p>High blood pressure often has no symptoms but can damage the heart, brain, kidneys, and eyes over time.</p>
+
+            <details open>
+              <summary>Risk factors</summary>
+              <div class="inside">
+                <ul>
+                  <li>High salt intake, obesity, inactivity, tobacco, excess alcohol, stress.</li>
+                  <li>Family history, older age, diabetes, kidney disease.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Prevention and lifestyle modification</summary>
+              <div class="inside">
+                <ul>
+                  <li>Reduce salt, eat more fruits/vegetables, stay active, maintain healthy weight.</li>
+                  <li>Stop tobacco; limit alcohol; manage stress and sleep.</li>
+                  <li>Check BP regularly; take medicines exactly as prescribed.</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="callout">
+              <strong>Tip:</strong> Many people feel “fine” with high BP. Regular screening is important.
+            </div>
+
+            <img src="" alt="Blood pressure awareness visual (add an image URL)">
+          </div>
+        `
+      },
+
+      hiv_aids: {
+        id: "hiv_aids",
+        title: "HIV/AIDS",
+        icon: "fas fa-ribbon",
+        content: `
+          <div class="topic">
+            <h2>HIV/AIDS</h2>
+            <p>HIV is treatable. Early testing and consistent treatment help people live long, healthy lives.</p>
+
+            <details open>
+              <summary>Transmission and prevention</summary>
+              <div class="inside">
+                <ul>
+                  <li>HIV can spread through unprotected sex, sharing needles, unsafe blood exposure, and from mother to child without prevention services.</li>
+                  <li>Prevention: condoms, safe injection practices, testing, and treatment. Follow local guidance for PrEP/PEP where available.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Reducing stigma</summary>
+              <div class="inside">
+                <ul>
+                  <li>HIV does not spread through casual contact (handshake, sharing food, hugging).</li>
+                  <li>Stigma reduces testing and treatment. Use respectful language and support.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Testing and treatment</summary>
+              <div class="inside">
+                <ul>
+                  <li>Testing is confidential in most programs; early diagnosis protects health.</li>
+                  <li>Antiretroviral therapy (ART) must be taken regularly as advised.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="HIV awareness visual (add an image URL)">
+          </div>
+        `
+      },
+
+      first_aid: {
+        id: "first_aid",
+        title: "First Aid",
+        icon: "fas fa-kit-medical",
+        content: `
+          <div class="topic">
+            <h2>First Aid (Basics)</h2>
+            <p>First aid is immediate help until professional care arrives. Stay calm and ensure safety.</p>
+
+            <details open>
+              <summary>Emergency response steps</summary>
+              <div class="inside">
+                <ul>
+                  <li>Check safety (for you and the patient).</li>
+                  <li>Call emergency services; share location and what happened.</li>
+                  <li>Check response, breathing, and severe bleeding.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Bleeding</summary>
+              <div class="inside">
+                <ul>
+                  <li>Apply firm pressure with clean cloth; elevate if possible.</li>
+                  <li>Do not remove embedded objects; pad around and seek urgent care.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Burns</summary>
+              <div class="inside">
+                <ul>
+                  <li>Cool under running water for 10–20 minutes; remove tight items.</li>
+                  <li>Do not apply toothpaste/oil; cover loosely and seek care for large/deep burns.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Choking</summary>
+              <div class="inside">
+                <ul>
+                  <li>Encourage coughing if breathing. If severe, follow trained back blows/abdominal thrusts.</li>
+                  <li>Call emergency help immediately if the person cannot breathe or talk.</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="callout">
+              <strong>Important:</strong> Learn CPR from certified training whenever possible.
+            </div>
+
+            <img src="" alt="First aid poster (add an image URL)">
+          </div>
+        `
+      },
+
+      substance_abuse: {
+        id: "substance_abuse",
+        title: "Drug/Substance Abuse",
+        icon: "fas fa-ban",
+        content: `
+          <div class="topic">
+            <h2>Drug or Substance Abuse</h2>
+            <p>Substance use can affect health, family, education, work, and safety. Recovery is possible.</p>
+
+            <details open>
+              <summary>Types of substance abuse</summary>
+              <div class="inside">
+                <ul>
+                  <li>Tobacco, alcohol, opioids, cannabis, inhalants, stimulants, sedatives.</li>
+                  <li>Misuse of prescription drugs also counts.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Health and social consequences</summary>
+              <div class="inside">
+                <ul>
+                  <li>Addiction, mental health issues, accidents, violence, chronic disease.</li>
+                  <li>Family stress, financial loss, poor academic/work performance.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Prevention and rehabilitation</summary>
+              <div class="inside">
+                <ul>
+                  <li>Build refusal skills, healthy friendships, and stress coping strategies.</li>
+                  <li>Seek help early: counseling, de‑addiction services, support groups.</li>
+                  <li>Families can support without blame; relapse can happen—continue treatment.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="Substance abuse prevention visual (add an image URL)">
+          </div>
+        `
+      },
+
+      water_air_airborne: {
+        id: "water_air_airborne",
+        title: "Water, Air & Airborne Diseases",
+        icon: "fas fa-wind",
+        content: `
+          <div class="topic">
+            <h2>Water, Air, and Airborne Diseases</h2>
+            <p>Many infections can be prevented with safe water, clean air, hygiene, and good ventilation.</p>
+
+            <details open>
+              <summary>Water-borne diseases</summary>
+              <div class="inside">
+                <ul>
+                  <li>Examples: diarrhea, typhoid, hepatitis A/E, cholera (outbreaks).</li>
+                  <li>Prevention: safe drinking water, handwashing, safe food, sanitation.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Air pollution and respiratory health</summary>
+              <div class="inside">
+                <ul>
+                  <li>Air pollution can worsen asthma and COPD and irritate eyes/throat.</li>
+                  <li>Reduce exposure: avoid peak traffic smoke, improve indoor ventilation, use clean cooking fuels if possible.</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Airborne infections and prevention</summary>
+              <div class="inside">
+                <ul>
+                  <li>Spread via air/droplets (examples include TB and some viral infections).</li>
+                  <li>Prevention: good ventilation, cough etiquette, masks when advised, early diagnosis and treatment.</li>
+                </ul>
+              </div>
+            </details>
+
+            <img src="" alt="Safe water and clean air visual (add an image URL)">
+          </div>
         `
       }
     };
 
-    document.addEventListener("DOMContentLoaded", () => {
-      loadData();
-      renderNav();
-      bindEvents();
-      updateUI();
-      const first = Object.keys(state.topics)[0];
-      if (first) selectTopic(first);
-    });
+    /***************
+     * Utility
+     ***************/
+    function toast(msg="Done"){
+      const t = document.getElementById("toast");
+      document.getElementById("toastMsg").textContent = msg;
+      t.classList.add("show");
+      window.clearTimeout(toast._timer);
+      toast._timer = window.setTimeout(()=>t.classList.remove("show"), 2200);
+    }
 
-    function bindEvents() {
+    function slugify(str){
+      return (str || "")
+        .toLowerCase()
+        .trim()
+        .replace(/['"]/g,"")
+        .replace(/[^a-z0-9]+/g,"_")
+        .replace(/^_+|_+$/g,"")
+        .slice(0, 48) || ("topic_" + Math.random().toString(16).slice(2,8));
+    }
+
+    function escapeHtml(str){
+      return (str || "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[c]));
+    }
+
+    function updateLastSaved(ts){
+      localStorage.setItem(STORAGE_LAST, String(ts));
+      document.getElementById("lastSavePill").textContent = new Date(ts).toLocaleString();
+    }
+
+    function loadData(){
+      const raw = localStorage.getItem(STORAGE_CONTENT);
+      if(raw){
+        try{
+          const parsed = JSON.parse(raw);
+          if(parsed && parsed.topics) state.topics = parsed.topics;
+          else state.topics = {...defaultTopics};
+        }catch(e){
+          state.topics = {...defaultTopics};
+        }
+      } else {
+        state.topics = {...defaultTopics};
+      }
+
+      const auth = localStorage.getItem(STORAGE_AUTH);
+      state.isAuthenticated = auth === "1";
+      state.editMode = state.isAuthenticated;
+
+      const last = localStorage.getItem(STORAGE_LAST);
+      if(last) document.getElementById("lastSavePill").textContent = new Date(Number(last)).toLocaleString();
+    }
+
+    function saveAll(){
+      localStorage.setItem(STORAGE_CONTENT, JSON.stringify({ topics: state.topics }));
+      updateLastSaved(Date.now());
+      toast("Saved all topics");
+    }
+
+    function renderNav(){
+      const nav = document.getElementById("navMenu");
+      nav.innerHTML = "";
+
+      const keys = Object.keys(state.topics);
+      document.getElementById("topicCount").textContent = String(keys.length);
+
+      keys.forEach(key=>{
+        const t = state.topics[key];
+        const li = document.createElement("li");
+        li.className = "nav-item";
+
+        const btn = document.createElement("button");
+        btn.className = "nav-link";
+        btn.type = "button";
+        btn.dataset.topicId = t.id;
+        btn.innerHTML = `
+          <i class="${escapeHtml(t.icon || "fas fa-book")}"></i>
+          <span class="nav-title">${escapeHtml(t.title || t.id)}</span>
+          <span class="nav-actions" aria-label="Topic actions">
+            <button class="rename" title="Rename"><i class="fas fa-pen"></i></button>
+            <button class="delete" title="Delete"><i class="fas fa-trash"></i></button>
+          </span>
+        `;
+
+        li.appendChild(btn);
+        nav.appendChild(li);
+      });
+
+      highlightActive();
+      document.getElementById("sidebar").classList.toggle("editing", state.editMode);
+    }
+
+    function highlightActive(){
+      document.querySelectorAll(".nav-link").forEach(btn=>{
+        btn.classList.toggle("active", btn.dataset.topicId === state.currentTopic);
+      });
+    }
+
+    function selectTopic(topicId){
+      state.currentTopic = topicId;
+      highlightActive();
+
+      const topicKey = Object.keys(state.topics).find(k => state.topics[k].id === topicId);
+      const t = topicKey ? state.topics[topicKey] : null;
+
+      const area = document.getElementById("contentArea");
+      if(!t){
+        area.innerHTML = `
+          <div class="empty">
+            <i class="fas fa-triangle-exclamation"></i>
+            <h3>Topic not found</h3>
+            <p>Please select another topic.</p>
+          </div>
+        `;
+        return;
+      }
+
+      area.innerHTML = t.content || `<div class="topic"><h2>${escapeHtml(t.title)}</h2><p>No content yet.</p></div>`;
+      document.getElementById("pageTitle").textContent = t.title || "Preventive and Social Medicine";
+      state.draftHtml = area.innerHTML;
+
+      wireBlockSelection();
+      if(state.editMode) makeEditable(true);
+      else makeEditable(false);
+    }
+
+    function makeEditable(on){
+      const area = document.getElementById("contentArea");
+      area.querySelectorAll(".topic").forEach(el=>{
+        el.classList.toggle("editable", on);
+        el.setAttribute("contenteditable", on ? "true" : "false");
+      });
+    }
+
+    function wireBlockSelection(){
+      state.selectedBlock = null;
+      const area = document.getElementById("contentArea");
+      area.querySelectorAll(".selected-block").forEach(el=>el.classList.remove("selected-block"));
+
+      // select nearest "block" for deletion
+      area.addEventListener("click", (e)=>{
+        if(!state.editMode) return;
+        const block = e.target.closest("details, p, ul, .callout, img, h2, h3, h4");
+        if(!block) return;
+        area.querySelectorAll(".selected-block").forEach(el=>el.classList.remove("selected-block"));
+        block.classList.add("selected-block");
+        state.selectedBlock = block;
+      }, { once: true });
+    }
+
+    function saveTopicEdits(){
+      if(!state.currentTopic) return toast("No topic selected");
+      const area = document.getElementById("contentArea");
+      const html = area.innerHTML;
+
+      // Update current topic content
+      const key = Object.keys(state.topics).find(k => state.topics[k].id === state.currentTopic);
+      if(!key) return toast("Topic missing");
+      state.topics[key].content = html;
+      state.draftHtml = html;
+      saveAll();
+    }
+
+    function cancelEdits(){
+      const area = document.getElementById("contentArea");
+      if(state.draftHtml != null) area.innerHTML = state.draftHtml;
+      makeEditable(true);
+      toast("Edits cancelled");
+    }
+
+    function previewEdits(){
+      makeEditable(false);
+      toast("Preview mode");
+      setTimeout(()=>{ if(state.editMode) makeEditable(true); }, 1500);
+    }
+
+    function deleteSelectedBlock(){
+      if(!state.selectedBlock) return toast("Select a block first");
+      const el = state.selectedBlock;
+      el.remove();
+      state.selectedBlock = null;
+      toast("Block removed");
+    }
+
+    function addBlock(){
+      const area = document.getElementById("contentArea");
+      const container = area.querySelector(".topic");
+      if(!container) return;
+
+      const details = document.createElement("details");
+      details.open = true;
+      details.innerHTML = `
+        <summary>New subsection (click to rename)</summary>
+        <div class="inside">
+          <p>Write content here. Use simple language and bullets.</p>
+          <ul>
+            <li>Key point 1</li>
+            <li>Key point 2</li>
+          </ul>
+        </div>
+      `;
+      container.appendChild(details);
+      toast("Block added");
+    }
+
+    function openImageModal(){
+      document.getElementById("imgUrl").value = "";
+      document.getElementById("imgAlt").value = "";
+      showModal("imageModal");
+    }
+
+    function insertImage(){
+      const url = (document.getElementById("imgUrl").value || "").trim();
+      const alt = (document.getElementById("imgAlt").value || "").trim() || "Educational image";
+      if(!url) return toast("Add image URL");
+      const area = document.getElementById("contentArea");
+      const container = area.querySelector(".topic");
+      if(!container) return;
+
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = alt;
+      container.appendChild(img);
+      toast("Image inserted");
+      hideModal("imageModal");
+    }
+
+    /***************
+     * Topic management
+     ***************/
+    function renderManageList(){
+      const list = document.getElementById("manageList");
+      list.innerHTML = "";
+      const keys = Object.keys(state.topics);
+
+      keys.forEach(key=>{
+        const t = state.topics[key];
+        const row = document.createElement("div");
+        row.className = "item";
+        row.innerHTML = `
+          <i class="${escapeHtml(t.icon || "fas fa-book")}"></i>
+          <div class="name">${escapeHtml(t.title || t.id)}</div>
+          <button class="mini" data-act="rename" data-key="${escapeHtml(key)}" title="Rename"><i class="fas fa-pen"></i></button>
+          <button class="mini" data-act="delete" data-key="${escapeHtml(key)}" title="Delete"><i class="fas fa-trash"></i></button>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function addTopic(){
+      const title = (document.getElementById("newTopicTitle").value || "").trim();
+      const icon = (document.getElementById("newTopicIcon").value || "").trim() || "fas fa-book";
+      if(!title) return toast("Enter a topic title");
+      const id = slugify(title);
+      if(Object.values(state.topics).some(t => t.id === id)) return toast("Topic already exists");
+
+      state.topics[id] = {
+        id,
+        title,
+        icon,
+        content: `
+          <div class="topic">
+            <h2>${escapeHtml(title)}</h2>
+            <p>Add content here. Use <b>details</b> sections for “Read more”.</p>
+            <details open>
+              <summary>Overview</summary>
+              <div class="inside">
+                <ul>
+                  <li>Key message 1</li>
+                  <li>Key message 2</li>
+                </ul>
+              </div>
+            </details>
+            <img src="" alt="${escapeHtml(title)} visual (add an image URL)">
+          </div>
+        `
+      };
+
+      document.getElementById("newTopicTitle").value = "";
+      document.getElementById("newTopicIcon").value = "";
+      renderNav();
+      renderManageList();
+      saveAll();
+      selectTopic(id);
+      toast("Topic added");
+    }
+
+    function renameTopicByKey(key){
+      const t = state.topics[key];
+      if(!t) return;
+      const newTitle = prompt("Rename topic:", t.title || t.id);
+      if(!newTitle) return;
+      t.title = newTitle.trim();
+      renderNav();
+      renderManageList();
+      saveAll();
+      if(state.currentTopic === t.id) document.getElementById("pageTitle").textContent = t.title;
+      toast("Renamed");
+    }
+
+    function deleteTopicByKey(key){
+      const t = state.topics[key];
+      if(!t) return;
+      if(!confirm(`Delete topic "${t.title || t.id}"?`)) return;
+      const deletingCurrent = state.currentTopic === t.id;
+      delete state.topics[key];
+      renderNav();
+      renderManageList();
+      saveAll();
+      toast("Deleted");
+      if(deletingCurrent){
+        const first = Object.keys(state.topics)[0];
+        if(first) selectTopic(state.topics[first].id);
+        else document.getElementById("contentArea").innerHTML = `<div class="empty"><i class="fas fa-book"></i><h3>No topics</h3><p>Add a topic in edit mode.</p></div>`;
+      }
+    }
+
+    /***************
+     * Auth / UI
+     ***************/
+    const ADMIN_PASSWORD = "admin123";
+
+    function authenticate(){
+      const pw = document.getElementById("modalPassword").value || "";
+      if(pw !== ADMIN_PASSWORD) return toast("Wrong password");
+      state.isAuthenticated = true;
+      state.editMode = true;
+      localStorage.setItem(STORAGE_AUTH, "1");
+      hideModal("loginModal");
+      updateUI();
+      toast("Edit mode enabled");
+    }
+
+    function logout(){
+      state.isAuthenticated = false;
+      state.editMode = false;
+      localStorage.setItem(STORAGE_AUTH, "0");
+      updateUI();
+      toast("Edit mode disabled");
+    }
+
+    function updateUI(){
+      document.getElementById("modePill").textContent = state.editMode ? "Edit" : "View";
+
+      document.getElementById("loginBtn").style.display   = state.editMode ? "none" : "";
+      document.getElementById("logoutBtn").style.display  = state.editMode ? "" : "none";
+      document.getElementById("saveAllBtn").style.display = state.editMode ? "" : "none";
+      document.getElementById("previewBtn").style.display = state.editMode ? "" : "none";
+      document.getElementById("manageBtn").style.display  = state.editMode ? "" : "none";
+      document.getElementById("exportBtn").style.display  = state.editMode ? "" : "none";
+      document.getElementById("importBtn").style.display  = state.editMode ? "" : "none";
+
+      document.getElementById("editControls").style.display = state.editMode ? "flex" : "none";
+      document.getElementById("sidebar").classList.toggle("editing", state.editMode);
+
+      if(state.currentTopic){
+        if(state.editMode) makeEditable(true);
+        else makeEditable(false);
+      }
+    }
+
+    function showModal(id){
+      const m = document.getElementById(id);
+      m.classList.add("show");
+      m.setAttribute("aria-hidden", "false");
+    }
+    function hideModal(id){
+      const m = document.getElementById(id);
+      m.classList.remove("show");
+      m.setAttribute("aria-hidden", "true");
+    }
+
+    /***************
+     * Import / Export
+     ***************/
+    function openExport(){
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        app: "PSM_WEB_APP",
+        topics: state.topics
+      };
+      document.getElementById("exportText").value = JSON.stringify(payload, null, 2);
+      showModal("exportModal");
+    }
+
+    async function copyExport(){
+      const txt = document.getElementById("exportText").value;
+      try{
+        await navigator.clipboard.writeText(txt);
+        toast("Copied");
+      }catch(e){
+        toast("Copy failed (select & copy manually)");
+      }
+    }
+
+    function openImport(){
+      document.getElementById("importText").value = "";
+      showModal("importModal");
+    }
+
+    function doImport(){
+      const raw = document.getElementById("importText").value;
+      if(!raw.trim()) return toast("Paste JSON first");
+      try{
+        const parsed = JSON.parse(raw);
+        if(!parsed || !parsed.topics) return toast("Invalid JSON format");
+        state.topics = parsed.topics;
+        renderNav();
+        renderManageList();
+        saveAll();
+        const firstKey = Object.keys(state.topics)[0];
+        if(firstKey) selectTopic(state.topics[firstKey].id);
+        hideModal("importModal");
+        toast("Imported");
+      }catch(e){
+        toast("Invalid JSON");
+      }
+    }
+
+    /***************
+     * Feedback (local only)
+     ***************/
+    function openFeedback(){ showModal("feedbackModal"); }
+    function closeFeedback(){ hideModal("feedbackModal"); }
+
+    function submitFeedback(){
+      const name = (document.getElementById("fbName").value || "").trim();
+      const role = document.getElementById("fbRole").value || "general";
+      const msg  = (document.getElementById("fbText").value || "").trim();
+      if(!msg) return toast("Please write a message");
+
+      const list = JSON.parse(localStorage.getItem(STORAGE_FEEDBACK) || "[]");
+      list.push({ ts: Date.now(), name, role, msg });
+      localStorage.setItem(STORAGE_FEEDBACK, JSON.stringify(list));
+
+      document.getElementById("fbName").value = "";
+      document.getElementById("fbText").value = "";
+      toast("Thanks! Saved locally.");
+      closeFeedback();
+    }
+
+    /***************
+     * Events
+     ***************/
+    function bindEvents(){
+      // Sidebar toggle
       document.getElementById("menuToggle").addEventListener("click", () => {
         document.getElementById("sidebar").classList.toggle("active");
       });
 
+      // Search filter
       document.getElementById("searchInput").addEventListener("input", (e) => {
         const term = (e.target.value || "").toLowerCase().trim();
         document.querySelectorAll("#navMenu .nav-item").forEach(li => {
@@ -518,410 +1972,116 @@
         });
       });
 
-      const navMenu = document.getElementById("navMenu");
-      const onNavActivate = (e) => {
-        const btn = e.target.closest("button.nav-link");
-        if (!btn) return;
-        e.preventDefault();
-        e.stopPropagation();
-        const id = btn.dataset.topicId;
-        if (!id) return;
-        selectTopic(id);
-        if (window.innerWidth <= 992) {
+      // Nav click + edit actions
+      document.getElementById("navMenu").addEventListener("click", (e) => {
+        const navBtn = e.target.closest("button.nav-link");
+        if(!navBtn) return;
+
+        // rename/delete click inside actions
+        if(state.editMode){
+          const renameBtn = e.target.closest("button.rename");
+          const deleteBtn = e.target.closest("button.delete");
+          if(renameBtn || deleteBtn){
+            e.preventDefault();
+            e.stopPropagation();
+            const topicId = navBtn.dataset.topicId;
+            const key = Object.keys(state.topics).find(k => state.topics[k].id === topicId);
+            if(!key) return;
+            if(renameBtn) renameTopicByKey(key);
+            if(deleteBtn) deleteTopicByKey(key);
+            return;
+          }
+        }
+
+        const id = navBtn.dataset.topicId;
+        if(id) selectTopic(id);
+
+        if(window.innerWidth <= 980){
           document.getElementById("sidebar").classList.remove("active");
         }
-      };
-      navMenu.addEventListener("pointerup", onNavActivate, { passive: false });
-      navMenu.addEventListener("click", onNavActivate, { passive: false });
-
-      document.getElementById("loginBtn").addEventListener("click", () => {
-        if (state.isAuthenticated) logout();
-        else openLoginModal();
       });
 
-      document.getElementById("modalLoginBtn").addEventListener("click", () => {
-        const pwd = document.getElementById("modalPassword").value;
-        if (pwd === "admin123") {
-          authenticate();
-          closeLoginModal();
-          document.getElementById("modalPassword").value = "";
-        } else {
-          toast("Wrong password", "error");
-        }
-      });
+      // Auth
+      document.getElementById("loginBtn").addEventListener("click", ()=>showModal("loginModal"));
+      document.getElementById("modalCancelBtn").addEventListener("click", ()=>hideModal("loginModal"));
+      document.getElementById("modalLoginBtn").addEventListener("click", authenticate);
+      document.getElementById("modalPassword").addEventListener("keydown", (e)=>{ if(e.key==="Enter") authenticate(); });
 
-      document.getElementById("modalCancelBtn").addEventListener("click", closeLoginModal);
-      document.getElementById("loginModal").addEventListener("click", (e) => {
-        if (e.target.id === "loginModal") closeLoginModal();
-      });
+      document.getElementById("logoutBtn").addEventListener("click", logout);
 
-      document.getElementById("addTopicBtn").addEventListener("click", addTopic);
-      document.getElementById("newTopicName").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") addTopic();
-      });
-
-      document.getElementById("editTopicBtn").addEventListener("click", toggleEditMode);
-
+      // Editor controls
       document.getElementById("saveBtn").addEventListener("click", saveTopicEdits);
       document.getElementById("cancelBtn").addEventListener("click", cancelEdits);
-      document.getElementById("addSectionBtn").addEventListener("click", addSection);
-      document.getElementById("deleteSectionBtn").addEventListener("click", deleteSelectedBlock);
-      document.getElementById("insertImageBtn").addEventListener("click", insertImage);
+      document.getElementById("previewBtn").addEventListener("click", previewEdits);
+      document.getElementById("saveAllBtn").addEventListener("click", saveAll);
+      document.getElementById("addBlockBtn").addEventListener("click", addBlock);
+      document.getElementById("deleteBlockBtn").addEventListener("click", deleteSelectedBlock);
 
-      document.getElementById("saveAllBtn").addEventListener("click", () => {
-        saveAll();
-        toast("All saved", "success");
+      document.getElementById("insertImageBtn").addEventListener("click", openImageModal);
+      document.getElementById("insertImgBtn").addEventListener("click", insertImage);
+      document.getElementById("closeImgBtn").addEventListener("click", ()=>hideModal("imageModal"));
+
+      // Manage panel
+      document.getElementById("manageBtn").addEventListener("click", ()=>{
+        const p = document.getElementById("managePanel");
+        const visible = p.style.display === "block";
+        p.style.display = visible ? "none" : "block";
+        renderManageList();
+      });
+      document.getElementById("closeManageBtn").addEventListener("click", ()=>document.getElementById("managePanel").style.display="none");
+      document.getElementById("addTopicBtn").addEventListener("click", addTopic);
+
+      document.getElementById("manageList").addEventListener("click", (e)=>{
+        const btn = e.target.closest("button.mini");
+        if(!btn) return;
+        const key = btn.dataset.key;
+        const act = btn.dataset.act;
+        if(act === "rename") renameTopicByKey(key);
+        if(act === "delete") deleteTopicByKey(key);
       });
 
-      document.getElementById("previewBtn").addEventListener("click", previewEdits);
-    }
+      // Export/Import
+      document.getElementById("exportBtn").addEventListener("click", openExport);
+      document.getElementById("closeExportBtn").addEventListener("click", ()=>hideModal("exportModal"));
+      document.getElementById("copyExportBtn").addEventListener("click", copyExport);
 
-    function loadData() {
-      const saved = localStorage.getItem(STORAGE_CONTENT);
-      if (saved) {
-        try { state.topics = JSON.parse(saved); }
-        catch { state.topics = structuredClone(defaultTopics); }
-      } else {
-        state.topics = structuredClone(defaultTopics);
-      }
+      document.getElementById("importBtn").addEventListener("click", openImport);
+      document.getElementById("closeImportBtn").addEventListener("click", ()=>hideModal("importModal"));
+      document.getElementById("doImportBtn").addEventListener("click", doImport);
 
-      const auth = localStorage.getItem(STORAGE_AUTH);
-      if (auth) {
-        try {
-          const a = JSON.parse(auth);
-          if (a.isAuthenticated && a.expiry > Date.now()) state.isAuthenticated = true;
-        } catch {}
-      }
+      // Feedback
+      document.getElementById("feedbackOpenBtn").addEventListener("click", openFeedback);
+      document.getElementById("fbCloseBtn").addEventListener("click", closeFeedback);
+      document.getElementById("fbSendBtn").addEventListener("click", submitFeedback);
 
-      const last = localStorage.getItem(STORAGE_LAST);
-      document.getElementById("lastUpdated").textContent = last ? new Date(parseInt(last, 10)).toLocaleDateString() : "Never";
-      document.getElementById("topicCount").textContent = Object.keys(state.topics).length;
-    }
-
-    function saveAll() {
-      localStorage.setItem(STORAGE_CONTENT, JSON.stringify(state.topics));
-      localStorage.setItem(STORAGE_LAST, String(Date.now()));
-      document.getElementById("lastUpdated").textContent = new Date().toLocaleDateString();
-      document.getElementById("topicCount").textContent = Object.keys(state.topics).length;
-      renderNav();
-      if (state.isAuthenticated) renderManageList();
-    }
-
-    function renderNav() {
-      const nav = document.getElementById("navMenu");
-      nav.innerHTML = "";
-      const sorted = Object.values(state.topics).sort((a,b)=>a.title.localeCompare(b.title));
-      for (const t of sorted) {
-        const li = document.createElement("li");
-        li.className = "nav-item";
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "nav-link";
-        btn.dataset.topicId = t.id;
-        btn.innerHTML = `<i class="${t.icon}"></i><span class="nav-title">${escapeHtml(t.title)}</span>`;
-        li.appendChild(btn);
-        nav.appendChild(li);
-      }
-      if (state.currentTopic) {
-        const activeBtn = nav.querySelector(`button.nav-link[data-topic-id="${cssEscape(state.currentTopic)}"]`);
-        if (activeBtn) activeBtn.classList.add("active");
-      }
-    }
-
-    function selectTopic(id) {
-      const topic = state.topics[id];
-      if (!topic) return;
-      state.editMode = false;
-      document.getElementById("editControls").classList.remove("active");
-
-      state.currentTopic = id;
-      document.getElementById("pageTitle").textContent = topic.title;
-      document.getElementById("currentTopicTitle").textContent = topic.title;
-
-      const content = document.getElementById("contentArea");
-      content.innerHTML = topic.content || "<p>No content.</p>";
-
-      content.querySelectorAll("img").forEach(img => {
-        img.addEventListener("click", () => {
-          if (img.src) window.open(img.src, "_blank");
+      // Close modals when clicking outside box
+      document.querySelectorAll(".modal").forEach(m=>{
+        m.addEventListener("click", (e)=>{
+          if(e.target === m) hideModal(m.id);
         });
       });
 
-      document.querySelectorAll("#navMenu .nav-link").forEach(b => b.classList.remove("active"));
-      const activeBtn = document.querySelector(`#navMenu .nav-link[data-topic-id="${cssEscape(id)}"]`);
-      if (activeBtn) activeBtn.classList.add("active");
-
-      updateUI();
-    }
-
-    function updateUI() {
-      const loginBtn = document.getElementById("loginBtn");
-      const editBtn = document.getElementById("editTopicBtn");
-      const manage = document.getElementById("topicManagement");
-      const badge = document.getElementById("editBadge");
-      const saveAllBtn = document.getElementById("saveAllBtn");
-      const previewBtn = document.getElementById("previewBtn");
-
-      if (state.isAuthenticated) {
-        loginBtn.className = "btn warn";
-        loginBtn.innerHTML = `<i class="fas fa-lock-open"></i> Exit Edit Mode`;
-        manage.classList.add("active");
-        badge.style.display = "block";
-        saveAllBtn.style.display = "inline-block";
-        previewBtn.style.display = "inline-block";
-        renderManageList();
-      } else {
-        loginBtn.className = "btn primary";
-        loginBtn.innerHTML = `<i class="fas fa-lock"></i> Enter Edit Mode`;
-        manage.classList.remove("active");
-        badge.style.display = "none";
-        saveAllBtn.style.display = "none";
-        previewBtn.style.display = "none";
-      }
-
-      editBtn.style.display = (state.isAuthenticated && state.currentTopic && !state.editMode) ? "inline-block" : "none";
-    }
-
-    function openLoginModal() {
-      document.getElementById("loginModal").style.display = "flex";
-      setTimeout(()=>document.getElementById("modalPassword").focus(),0);
-    }
-    function closeLoginModal() { document.getElementById("loginModal").style.display = "none"; }
-
-    function authenticate() {
-      state.isAuthenticated = true;
-      localStorage.setItem(STORAGE_AUTH, JSON.stringify({ isAuthenticated:true, expiry: Date.now() + 24*60*60*1000 }));
-      updateUI();
-      toast("Edit mode enabled", "success");
-    }
-
-    function logout() {
-      state.isAuthenticated = false;
-      state.editMode = false;
-      localStorage.removeItem(STORAGE_AUTH);
-      document.getElementById("editControls").classList.remove("active");
-      updateUI();
-      toast("Logged out", "warn");
-      if (state.currentTopic) selectTopic(state.currentTopic);
-    }
-
-    function addTopic() {
-      if (!state.isAuthenticated) { toast("Login to add topics", "error"); return; }
-      const name = (document.getElementById("newTopicName").value || "").trim();
-      const icon = document.getElementById("newTopicIcon").value;
-      if (!name) { toast("Enter a topic name", "error"); return; }
-      const id = slugify(name);
-      if (state.topics[id]) { toast("Topic already exists", "error"); return; }
-      state.topics[id] = {
-        id,
-        title: name,
-        icon,
-        content: `<h3>${escapeHtml(name)}</h3><p>Add content here...</p><img src="" alt="${escapeHtml(name)} image">`
-      };
-      document.getElementById("newTopicName").value = "";
-      saveAll();
-      selectTopic(id);
-      toast(`Added: ${name}`, "success");
-    }
-
-    function renderManageList() {
-      const list = document.getElementById("topicListEdit");
-      list.innerHTML = "";
-      const sorted = Object.values(state.topics).sort((a,b)=>a.title.localeCompare(b.title));
-      for (const t of sorted) {
-        const li = document.createElement("li");
-        li.className = "topic-edit-item";
-        li.innerHTML = `
-          <div class="topic-edit-left">
-            <i class="${t.icon}"></i>
-            <span>${escapeHtml(t.title)}</span>
-          </div>
-          <div class="topic-actions">
-            <button class="mini edit" type="button" title="Edit" data-id="${t.id}"><i class="fas fa-edit"></i></button>
-            <button class="mini del" type="button" title="Delete" data-id="${t.id}"><i class="fas fa-trash"></i></button>
-          </div>
-        `;
-        li.querySelector(".mini.edit").addEventListener("click", () => renameTopic(t.id));
-        li.querySelector(".mini.del").addEventListener("click", () => deleteTopic(t.id));
-        list.appendChild(li);
-      }
-    }
-
-    function renameTopic(id) {
-      const t = state.topics[id];
-      if (!t) return;
-      const newName = prompt("New topic name:", t.title);
-      if (!newName || !newName.trim()) return;
-      const newIcon = prompt("New icon class (example: fas fa-heart):", t.icon) || t.icon;
-      t.title = newName.trim();
-      t.icon = (newIcon || t.icon).trim();
-      saveAll();
-      if (state.currentTopic === id) selectTopic(id);
-      toast("Topic updated", "success");
-    }
-
-    function deleteTopic(id) {
-      const t = state.topics[id];
-      if (!t) return;
-      if (!confirm(`Delete "${t.title}"?`)) return;
-      delete state.topics[id];
-      saveAll();
-      if (state.currentTopic === id) {
-        const first = Object.keys(state.topics)[0];
-        if (first) selectTopic(first);
-        else {
-          state.currentTopic = null;
-          document.getElementById("pageTitle").textContent = "Preventive and Social Medicine";
-          document.getElementById("currentTopicTitle").textContent = "Welcome";
-          document.getElementById("contentArea").innerHTML = `
-            <div class="empty"><i class="fas fa-folder-open"></i><h3>No topics</h3><p>Add topics in edit mode.</p></div>
-          `;
+      // ESC to close modals / panels
+      document.addEventListener("keydown", (e)=>{
+        if(e.key === "Escape"){
+          document.querySelectorAll(".modal.show").forEach(m=>hideModal(m.id));
+          document.getElementById("managePanel").style.display = "none";
         }
-      }
-      toast("Topic deleted", "warn");
-    }
-
-    function toggleEditMode() {
-      if (!state.isAuthenticated) { openLoginModal(); return; }
-      if (!state.currentTopic) return;
-      state.editMode = !state.editMode;
-      const controls = document.getElementById("editControls");
-      const editBtn = document.getElementById("editTopicBtn");
-      if (state.editMode) {
-        controls.classList.add("active");
-        editBtn.style.display = "none";
-        makeEditable();
-        toast("Editing enabled", "success");
-      } else {
-        controls.classList.remove("active");
-        editBtn.style.display = "inline-block";
-        selectTopic(state.currentTopic);
-      }
-    }
-
-    function makeEditable() {
-      const topic = state.topics[state.currentTopic];
-      const contentArea = document.getElementById("contentArea");
-      const ed = document.createElement("div");
-      ed.id = "editableContent";
-      ed.className = "editable";
-      ed.contentEditable = "true";
-      ed.innerHTML = topic.content || "<p>Start typing...</p><img src=\"\" alt=\"Image\">";
-      contentArea.innerHTML = "";
-      contentArea.appendChild(ed);
-      ed.focus();
-    }
-
-    function saveTopicEdits() {
-      if (!state.editMode || !state.currentTopic) return;
-      const ed = document.getElementById("editableContent");
-      if (!ed) return;
-      state.topics[state.currentTopic].content = ed.innerHTML;
-      saveAll();
-      state.editMode = false;
-      document.getElementById("editControls").classList.remove("active");
-      toast("Saved", "success");
-      selectTopic(state.currentTopic);
-    }
-
-    function cancelEdits() {
-      state.editMode = false;
-      document.getElementById("editControls").classList.remove("active");
-      toast("Canceled", "warn");
-      if (state.currentTopic) selectTopic(state.currentTopic);
-    }
-
-    function previewEdits() {
-      if (!state.editMode) { toast("Enable edit mode to preview", "error"); return; }
-      const ed = document.getElementById("editableContent");
-      if (!ed) return;
-      document.getElementById("contentArea").innerHTML = ed.innerHTML + `
-        <div style="margin-top:12px;">
-          <button class="btn primary" id="backToEditBtn"><i class="fas fa-edit"></i> Back to Editing</button>
-        </div>`;
-      document.getElementById("backToEditBtn").addEventListener("click", () => {
-        makeEditable();
-        document.getElementById("editControls").classList.add("active");
       });
-      toast("Preview shown", "success");
     }
 
-    function addSection() {
-      if (!state.editMode) return;
-      const ed = document.getElementById("editableContent");
-      if (!ed) return;
-      const block = document.createElement("div");
-      block.innerHTML = "<h3>New Section</h3><p>Add content here...</p>";
-      ed.appendChild(block);
-      toast("Section added (save to keep)", "success");
-    }
+    /***************
+     * Init
+     ***************/
+    document.addEventListener("DOMContentLoaded", () => {
+      loadData();
+      renderNav();
+      bindEvents();
+      updateUI();
 
-    function deleteSelectedBlock() {
-      if (!state.editMode) return;
-      const sel = window.getSelection();
-      if (!sel || sel.rangeCount === 0) { toast("Select something first", "error"); return; }
-      const range = sel.getRangeAt(0);
-      const node = range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentElement;
-      const ed = document.getElementById("editableContent");
-      if (!ed || !node || !ed.contains(node) || node === ed) { toast("Click inside a block then try again", "error"); return; }
-      if (confirm("Delete the selected element/block?")) {
-        node.remove();
-        toast("Deleted (save to keep)", "warn");
-      }
-    }
-
-    // Modified: fill the first <img> in the editable area with the URL
-    function insertImage() {
-      if (!state.editMode) return;
-      const url = prompt("Image URL:");
-      if (!url) return;
-      const alt = prompt("Caption / Alt text:", "Topic image") || "Topic image";
-      const ed = document.getElementById("editableContent");
-      if (!ed) return;
-
-      const firstImg = ed.querySelector("img");
-      if (firstImg) {
-        firstImg.src = url;
-        firstImg.alt = alt;
-      } else {
-        const img = document.createElement("img");
-        img.src = url;
-        img.alt = alt;
-        ed.appendChild(img);
-      }
-
-      toast("Image set (save to keep)", "success");
-    }
-
-    function toast(msg, type) {
-      const t = document.getElementById("toast");
-      const m = document.getElementById("toastMsg");
-      m.textContent = msg;
-      t.className = "toast" + (type ? " " + type : "");
-      t.style.display = "block";
-      clearTimeout(toast._timer);
-      toast._timer = setTimeout(()=>t.style.display="none", 2600);
-    }
-
-    function slugify(s){
-      return String(s).toLowerCase().trim()
-        .replace(/[\s_]+/g,"-")
-        .replace(/[^a-z0-9-]/g,"")
-        .replace(/-+/g,"-");
-    }
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","'");
-    }
-
-    function cssEscape(s){
-      return String(s).replace(/"/g,'\\"');
-    }
+      const firstKey = Object.keys(state.topics)[0];
+      if(firstKey) selectTopic(state.topics[firstKey].id);
+    });
   </script>
 </body>
 </html>

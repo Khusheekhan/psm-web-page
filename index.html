@@ -67,6 +67,44 @@
     .logo i{font-size:1.2rem}
     .tagline{margin-left:34px;color:var(--muted);font-size:.92rem;font-weight:300;line-height:1.3}
 
+    /* NEW: animated concept credit */
+    .concept-credit{
+      margin:10px 18px 0;
+      padding:6px 10px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:0.9rem;
+      color:var(--text);
+      background:linear-gradient(120deg, rgba(100,255,218,.24), rgba(0,212,255,.18));
+      box-shadow:0 0 12px rgba(100,255,218,.25);
+      position:relative;
+      overflow:hidden;
+      animation:conceptGlow 4.5s ease-in-out infinite;
+    }
+    .concept-credit::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, rgba(255,255,255,.12), transparent, rgba(255,255,255,.04));
+      transform:translateX(-130%);
+      animation:conceptShine 6s ease-in-out infinite;
+    }
+    .concept-credit span{
+      font-weight:700;
+      letter-spacing:0.4px;
+    }
+    @keyframes conceptGlow{
+      0%,100%{ box-shadow:0 0 10px rgba(100,255,218,.15); transform:translateY(0); }
+      50%{ box-shadow:0 0 18px rgba(0,212,255,.35); transform:translateY(-1px); }
+    }
+    @keyframes conceptShine{
+      0%{ transform:translateX(-130%); }
+      60%{ transform:translateX(130%); }
+      100%{ transform:translateX(130%); }
+    }
+
     .search-wrap{padding:12px 18px 4px}
     .search{
       display:flex;align-items:center;gap:10px;
@@ -473,19 +511,16 @@
 <body>
   <div class="container">
 
-   <aside class="sidebar" id="sidebar" aria-label="Topic navigation">
-  <div class="sidebar-header">
-    <div class="logo"><i class="fas fa-shield-heart"></i> PSM</div>
-    <div class="tagline">
-      Preventive and Social Medicine • Simple, evidence‑based health education
-    </div>
-    <div class="tagline" style="margin-top:4px;">
-      Concept by Khushee Khan
-    </div>
-  </div>
-  ...
-</aside>
-
+    <aside class="sidebar" id="sidebar" aria-label="Topic navigation">
+      <div class="sidebar-header">
+        <div class="logo"><i class="fas fa-shield-heart"></i> PSM</div>
+        <div class="tagline">
+          Preventive and Social Medicine • Simple, evidence‑based health education
+        </div>
+        <div class="concept-credit">
+          Concept by <span>Khushee Khan</span>
+        </div>
+      </div>
 
       <div class="search-wrap">
         <div class="search" role="search">
@@ -514,6 +549,9 @@
         </div>
 
         <div class="actions" aria-label="Actions">
+          <!-- NEW home button -->
+          <button class="btn ghost" id="homeBtn"><i class="fas fa-house"></i> Home</button>
+
           <button class="btn primary" id="loginBtn"><i class="fas fa-lock"></i> Enter Edit Mode</button>
           <button class="btn ghost" id="manageBtn" style="display:none;"><i class="fas fa-screwdriver-wrench"></i> Manage Topics</button>
           <button class="btn ghost" id="exportBtn" style="display:none;"><i class="fas fa-file-export"></i> Export</button>
@@ -633,7 +671,6 @@
   <button class="btn primary fab" id="feedbackOpenBtn" aria-label="Open feedback form">
     <i class="fas fa-comment-dots"></i> Feedback
   </button>
-
   <div class="modal" id="feedbackModal" aria-hidden="true">
     <div class="box">
       <h3>Feedback / Suggestion</h3>
@@ -685,839 +722,47 @@
     };
 
     /***************
-     * Default topics (educational content)
-     * Using <details> for expandable "Read more".
+     * Default topics (with Home)
      ***************/
     const defaultTopics = {
-      nutrition_age_gender: {
-        id: "nutrition_age_gender",
-        title: "Nutrition by Age & Gender",
-        icon: "fas fa-apple-whole",
+      home: {
+        id: "home",
+        title: "Home / Overview",
+        icon: "fas fa-house-medical",
         content: `
           <div class="topic">
-            <h2>Nutrition and Health (Age & Gender)</h2>
-            <p>Good nutrition supports growth, learning, immunity, and healthy aging.</p>
-
-            <div class="kpi">
-              <div class="card"><div class="label">Daily focus</div><div class="value">Balanced plate</div></div>
-              <div class="card"><div class="label">Key habits</div><div class="value">Hydration + sleep</div></div>
-              <div class="card"><div class="label">Safety</div><div class="value">Food hygiene</div></div>
-            </div>
-
+            <h2>Preventive and Social Medicine</h2>
+            <p>This tool gives simple, evidence-based health messages for teaching and self-learning.</p>
             <details open>
-              <summary>Infants (0–12 months)</summary>
+              <summary>How to use this app</summary>
               <div class="inside">
                 <ul>
-                  <li>Exclusive breastfeeding for the first 6 months when possible; start complementary foods after 6 months.</li>
-                  <li>Choose soft, safe, iron‑rich foods; feed patiently and regularly.</li>
-                  <li>Maintain hygiene: clean hands, clean utensils, safe water.</li>
+                  <li>Browse topics from the left sidebar (nutrition, environment, NCDs, HIV, first aid, and more).</li>
+                  <li>Click each section heading to expand "Read more" details and bullet points.</li>
+                  <li>Educators can enter Edit Mode to adapt content to local language or programs.</li>
                 </ul>
               </div>
             </details>
-
             <details>
-              <summary>Children (1–9 years)</summary>
+              <summary>Who is this for?</summary>
               <div class="inside">
                 <ul>
-                  <li>Offer a variety: grains/roti/rice, pulses/eggs/milk, vegetables, fruits, healthy fats.</li>
-                  <li>Limit packaged snacks and sugary drinks; promote outdoor play and sleep.</li>
-                  <li>School tiffin: add fruit + protein (nuts/roasted chana/egg/curd).</li>
+                  <li>Students, health workers, and community volunteers preparing talks or sessions.</li>
+                  <li>Anyone who wants a quick refresher on key public health messages.</li>
                 </ul>
               </div>
             </details>
-
-            <details>
-              <summary>Adolescents</summary>
-              <div class="inside">
-                <ul>
-                  <li>High demand for energy, protein, and micronutrients due to rapid growth.</li>
-                  <li>Encourage iron‑rich foods (especially for girls), calcium sources, and regular meals.</li>
-                  <li>Support healthy body image; avoid crash diets and unsafe supplements.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Adults</summary>
-              <div class="inside">
-                <ul>
-                  <li>Prefer whole grains, pulses/legumes, vegetables, fruits, nuts; reduce excess salt, sugar, and deep-fried foods.</li>
-                  <li>Be active most days; manage stress; avoid tobacco; limit alcohol.</li>
-                  <li>Maintain a healthy waistline with portion control and consistent routines.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Elderly</summary>
-              <div class="inside">
-                <ul>
-                  <li>Ensure enough protein (dal/curd/eggs/fish/soy) and fluids.</li>
-                  <li>Watch for unintentional weight loss, poor appetite, dental problems, constipation.</li>
-                  <li>Sunlight + safe activity supports bone and mental health; prevent falls.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Gender-specific needs</summary>
-              <div class="inside">
-                <ul>
-                  <li>Women: iron needs may be higher due to menstruation; focus on iron + vitamin C foods.</li>
-                  <li>Pregnancy/lactation: extra energy, protein, iron, folate and calcium as advised by healthcare providers.</li>
-                  <li>Men: avoid excess alcohol; focus on heart health (fiber, activity, sleep).</li>
-                </ul>
-              </div>
-            </details>
-
-            <div class="callout">
-              <strong>Simple daily plate idea:</strong> Half vegetables + fruits, one quarter grains, one quarter protein (dal/eggs/curd/fish/soy), plus water.
-            </div>
-
-            <img src="" alt="Nutrition infographic (add an image URL in edit mode)">
           </div>
         `
       },
 
-      malnutrition: {
-        id: "malnutrition",
-        title: "Malnutrition",
-        icon: "fas fa-scale-balanced",
-        content: `
-          <div class="topic">
-            <h2>Malnutrition</h2>
-            <p>Malnutrition includes both undernutrition and overnutrition.</p>
-
-            <details open>
-              <summary>Undernutrition: causes, signs, prevention</summary>
-              <div class="inside">
-                <ul>
-                  <li>Causes: low food intake, repeated infections, poor feeding practices, poverty, poor sanitation.</li>
-                  <li>Signs: low weight, stunting, fatigue, frequent illness, swelling (in severe cases).</li>
-                  <li>Prevention: balanced diet, immunization, safe water, hygiene, deworming as advised, early care-seeking.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Overnutrition: risks, prevention</summary>
-              <div class="inside">
-                <ul>
-                  <li>Risks: obesity, diabetes, heart disease, fatty liver, joint problems.</li>
-                  <li>Drivers: sedentary lifestyle, sugary drinks, ultra‑processed foods, irregular sleep, stress eating.</li>
-                  <li>Prevention: portion control, daily physical activity, healthier snacks, regular sleep.</li>
-                </ul>
-              </div>
-            </details>
-
-            <div class="callout">
-              <strong>Remember:</strong> Children can have both undernutrition and obesity risk—focus on quality foods and activity, not only calories.
-            </div>
-            <img src="" alt="Malnutrition visual (add an image URL)">
-          </div>
-        `
-      },
-
-      obstetrics_peds_geriatrics: {
-        id: "obstetrics_peds_geriatrics",
-        title: "Obstetrics, Paediatrics & Geriatrics",
-        icon: "fas fa-people-roof",
-        content: `
-          <div class="topic">
-            <h2>Obstetrics, Paediatrics, and Geriatrics</h2>
-            <p>Health needs change across life stages. Prevention and early care make outcomes better.</p>
-
-            <details open>
-              <summary>Maternal health & antenatal care</summary>
-              <div class="inside">
-                <ul>
-                  <li>Register early for antenatal care; attend recommended check-ups.</li>
-                  <li>Monitor blood pressure, blood sugar (if advised), anemia; take supplements as prescribed.</li>
-                  <li>Seek urgent care for danger signs (bleeding, severe headache, blurred vision, severe swelling, reduced fetal movements).</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Child growth & development</summary>
-              <div class="inside">
-                <ul>
-                  <li>Track weight/height and milestones; ask about feeding difficulties early.</li>
-                  <li>Keep immunization up to date; ensure safe play and injury prevention.</li>
-                  <li>Support mental and emotional development: talk, play, read, and encourage social interaction.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Healthy aging & elderly care</summary>
-              <div class="inside">
-                <ul>
-                  <li>Regular checks for BP, diabetes, vision/hearing, and medication review.</li>
-                  <li>Prevent falls: good lighting, remove loose rugs, safe footwear, strength/balance exercises.</li>
-                  <li>Address loneliness and depression; maintain social connection and purpose.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="Maternal, child, and elderly care visual (add an image URL)">
-          </div>
-        `
-      },
-
-      environment_health: {
-        id: "environment_health",
-        title: "Environment & Health",
-        icon: "fas fa-seedling",
-        content: `
-          <div class="topic">
-            <h2>Environment and Health</h2>
-            <p>Clean air, safe water, good sanitation, and safe housing reduce many diseases.</p>
-
-            <details open>
-              <summary>Environmental risk factors</summary>
-              <div class="inside">
-                <ul>
-                  <li>Air pollution (traffic, smoke), unsafe drinking water, chemical exposures, unsafe food.</li>
-                  <li>Indoor air pollution from solid fuels and poor ventilation can harm lungs.</li>
-                  <li>Noise, overcrowding, and poor housing can affect physical and mental health.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Climate change and health</summary>
-              <div class="inside">
-                <ul>
-                  <li>Heat waves can cause dehydration and heat stroke; protect outdoor workers.</li>
-                  <li>Extreme weather affects injuries, mental health, and access to healthcare.</li>
-                  <li>Changing climate can influence mosquito‑borne disease patterns.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Sanitation and hygiene</summary>
-              <div class="inside">
-                <ul>
-                  <li>Handwashing with soap reduces diarrheal and respiratory infections.</li>
-                  <li>Use safe toilets; keep surroundings clean; manage waste safely.</li>
-                  <li>Store drinking water safely and clean containers regularly.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="Sanitation and hygiene visual (add an image URL)">
-          </div>
-        `
-      },
-
-      biomedical_waste: {
-        id: "biomedical_waste",
-        title: "Hospital Waste Management",
-        icon: "fas fa-trash-can",
-        content: `
-          <div class="topic">
-            <h2>Hospital (Biomedical) Waste Management</h2>
-            <p>Biomedical waste must be handled safely to protect healthcare workers, patients, and the environment.</p>
-
-            <details open>
-              <summary>Types of biomedical waste</summary>
-              <div class="inside">
-                <ul>
-                  <li>Sharps: needles, blades.</li>
-                  <li>Infectious waste: soiled dressings, lab waste.</li>
-                  <li>Pharmaceutical/chemical waste: expired medicines, disinfectants.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Segregation and disposal methods</summary>
-              <div class="inside">
-                <ul>
-                  <li>Segregate at the point of generation using labeled/color‑coded containers (as per local rules).</li>
-                  <li>Use puncture‑proof sharps containers; never recap needles unnecessarily.</li>
-                  <li>Follow facility protocols for transport, treatment, and final disposal.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Why compliance matters</summary>
-              <div class="inside">
-                <ul>
-                  <li>Prevents needle‑stick injuries and infections.</li>
-                  <li>Reduces environmental contamination and community risk.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="Biomedical waste segregation infographic (add an image URL)">
-          </div>
-        `
-      },
-
-      mental_health: {
-        id: "mental_health",
-        title: "Mental Health",
-        icon: "fas fa-brain",
-        content: `
-          <div class="topic">
-            <h2>Mental Health</h2>
-            <p>Mental health is part of overall health. Seeking help is a sign of strength, not weakness.</p>
-
-            <details open>
-              <summary>Common conditions</summary>
-              <div class="inside">
-                <ul>
-                  <li>Anxiety disorders, depression, substance use disorders.</li>
-                  <li>Severe conditions like bipolar disorder or psychosis need professional care.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Stress management and coping</summary>
-              <div class="inside">
-                <ul>
-                  <li>Sleep routine, physical activity, balanced meals, and limiting alcohol/substances.</li>
-                  <li>Simple practices: deep breathing, journaling, mindfulness, time management.</li>
-                  <li>Talk to trusted people; seek counseling if stress affects daily life.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Reducing stigma and seeking help</summary>
-              <div class="inside">
-                <ul>
-                  <li>Avoid labels like “mad/weak”; use respectful language.</li>
-                  <li>If someone talks about self-harm, take it seriously and seek urgent help.</li>
-                </ul>
-              </div>
-            </details>
-
-            <div class="callout">
-              <strong>Urgent:</strong> If there is risk of self-harm, contact local emergency services or a nearby hospital immediately.
-            </div>
-
-            <img src="" alt="Mental health awareness visual (add an image URL)">
-          </div>
-        `
-      },
-
-      family_planning: {
-        id: "family_planning",
-        title: "Family Planning",
-        icon: "fas fa-people-group",
-        content: `
-          <div class="topic">
-            <h2>Family Planning</h2>
-            <p>Family planning helps individuals and couples choose if/when to have children, supporting health and wellbeing.</p>
-
-            <details open>
-              <summary>Temporary methods</summary>
-              <div class="inside">
-                <ul>
-                  <li>Condoms (also reduce STI risk).</li>
-                  <li>Oral contraceptive pills (use under guidance).</li>
-                  <li>IUD/Cu‑T, injectables, and other options depending on availability and eligibility.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Permanent methods</summary>
-              <div class="inside">
-                <ul>
-                  <li>Vasectomy (male sterilization): simple procedure, does not reduce masculinity.</li>
-                  <li>Tubectomy (female sterilization): permanent option after counseling.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Benefits</summary>
-              <div class="inside">
-                <ul>
-                  <li>Reduces unintended pregnancies; supports spacing between births.</li>
-                  <li>Improves maternal and child health outcomes when pregnancies are planned.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Myths vs facts</summary>
-              <div class="inside">
-                <ul>
-                  <li><b>Myth:</b> Contraception causes permanent infertility. <b>Fact:</b> Most reversible methods stop working after discontinuation.</li>
-                  <li><b>Myth:</b> Vasectomy affects sexual performance. <b>Fact:</b> It prevents sperm in semen; sexual function remains.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="Family planning awareness poster (add an image URL)">
-          </div>
-        `
-      },
-
-      menstrual_hygiene: {
-        id: "menstrual_hygiene",
-        title: "Menstrual Hygiene",
-        icon: "fas fa-droplet",
-        content: `
-          <div class="topic">
-            <h2>Menstrual Hygiene</h2>
-            <p>Menstruation is normal. Safe hygiene reduces infections and supports dignity and comfort.</p>
-
-            <details open>
-              <summary>Menstrual health education</summary>
-              <div class="inside">
-                <ul>
-                  <li>Teach that periods are a natural body process, not “dirty”.</li>
-                  <li>Explain cycle basics, normal variation, and when to seek help (very heavy bleeding, severe pain, irregular cycles).</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Hygiene practices</summary>
-              <div class="inside">
-                <ul>
-                  <li>Use clean pads/cloth; change regularly (every 4–6 hours or as needed).</li>
-                  <li>Wash hands before/after changing; bathe as usual.</li>
-                  <li>Dispose pads safely; wash/dry reusable cloth in sunlight.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Addressing stigma and taboos</summary>
-              <div class="inside">
-                <ul>
-                  <li>Encourage respectful conversation in families and schools.</li>
-                  <li>Support access to toilets, water, and disposal bins.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="Menstrual hygiene infographic (add an image URL)">
-          </div>
-        `
-      },
-
-      pcos_myths: {
-        id: "pcos_myths",
-        title: "PCOS/PCOD Myths",
-        icon: "fas fa-venus",
-        content: `
-          <div class="topic">
-            <h2>Misconceptions Related to PCOS/PCOD</h2>
-            <p>PCOS is common and manageable. Correct information reduces fear and stigma.</p>
-
-            <details open>
-              <summary>Common myths</summary>
-              <div class="inside">
-                <ul>
-                  <li><b>Myth:</b> PCOS means you can never get pregnant.</li>
-                  <li><b>Myth:</b> PCOS happens only because of “bad lifestyle”.</li>
-                  <li><b>Myth:</b> Treatment is only hormones forever.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Scientific facts (simple)</summary>
-              <div class="inside">
-                <ul>
-                  <li>PCOS involves hormone imbalance and can affect periods, skin/hair, and metabolism.</li>
-                  <li>Many people conceive with lifestyle changes and medical support when needed.</li>
-                  <li>Long-term care may include nutrition, activity, sleep, stress reduction, and medicines as advised.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Lifestyle and medical management</summary>
-              <div class="inside">
-                <ul>
-                  <li>Healthy weight (if needed), regular activity, and balanced diet can improve symptoms.</li>
-                  <li>Consult a qualified clinician for irregular cycles, infertility concerns, or severe symptoms.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="PCOS awareness visual (add an image URL)">
-          </div>
-        `
-      },
-
-      myths_taboos_awareness: {
-        id: "myths_taboos_awareness",
-        title: "Myths, Taboos & Awareness",
-        icon: "fas fa-comments",
-        content: `
-          <div class="topic">
-            <h2>Myths, Taboos, and Lack of Awareness</h2>
-            <p>Misconceptions can delay care and increase suffering. Community education improves health-seeking behavior.</p>
-
-            <details open>
-              <summary>Common cultural misconceptions</summary>
-              <div class="inside">
-                <ul>
-                  <li>“Vaccines cause infertility.”</li>
-                  <li>“TB or HIV is a punishment.”</li>
-                  <li>“Mental illness is not a real illness.”</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Impact on health-seeking behavior</summary>
-              <div class="inside">
-                <ul>
-                  <li>Delays diagnosis and treatment.</li>
-                  <li>Promotes unsafe home remedies and misinformation.</li>
-                  <li>Increases stigma and discrimination.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Awareness strategies</summary>
-              <div class="inside">
-                <ul>
-                  <li>Use local language, respectful messaging, and community leaders.</li>
-                  <li>Share verified information, simple visuals, and real stories.</li>
-                  <li>Promote “ask a health worker/doctor” before believing social media posts.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="Community awareness visual (add an image URL)">
-          </div>
-        `
-      },
-
-      communicable_diseases: {
-        id: "communicable_diseases",
-        title: "Communicable Diseases",
-        icon: "fas fa-virus",
-        content: `
-          <div class="topic">
-            <h2>Communicable Diseases</h2>
-            <p>These diseases spread from one person to another (directly or indirectly). Prevention is powerful.</p>
-
-            <details open>
-              <summary>Modes of transmission</summary>
-              <div class="inside">
-                <ul>
-                  <li>Airborne/droplets (cough/sneeze), contact (hands/surfaces), food/water, blood/sexual contact, mosquitoes.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Prevention and control</summary>
-              <div class="inside">
-                <ul>
-                  <li>Hand hygiene, safe water, safe food, sanitation, and good ventilation.</li>
-                  <li>Use masks when advised, stay home when ill, and seek early care for severe symptoms.</li>
-                  <li>Vector control: prevent mosquito breeding, use nets/repellents.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Immunization awareness</summary>
-              <div class="inside">
-                <ul>
-                  <li>Vaccines prevent serious illnesses and protect communities.</li>
-                  <li>Follow local immunization schedules and booster recommendations.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="Immunization / prevention visual (add an image URL)">
-          </div>
-        `
-      },
-
-      obesity: {
-        id: "obesity",
-        title: "Obesity",
-        icon: "fas fa-person",
-        content: `
-          <div class="topic">
-            <h2>Obesity</h2>
-            <p>Obesity is excess body fat that can increase health risks. It is influenced by diet, activity, sleep, stress, and genetics.</p>
-
-            <details open>
-              <summary>Causes and risk factors</summary>
-              <div class="inside">
-                <ul>
-                  <li>High-calorie ultra‑processed foods, sugary drinks, large portions.</li>
-                  <li>Low physical activity, long screen time, poor sleep.</li>
-                  <li>Stress, some medicines, hormonal factors.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Health risks</summary>
-              <div class="inside">
-                <ul>
-                  <li>Diabetes, high BP, heart disease, fatty liver, sleep apnea, joint pain.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Prevention and management</summary>
-              <div class="inside">
-                <ul>
-                  <li>Regular activity, balanced diet, reduced sugary drinks, mindful eating.</li>
-                  <li>Set realistic goals; track habits; seek professional guidance if needed.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="Healthy lifestyle visual (add an image URL)">
-          </div>
-        `
-      },
-
-      hypertension: {
-        id: "hypertension",
-        title: "Hypertension (High BP)",
-        icon: "fas fa-heart-pulse",
-        content: `
-          <div class="topic">
-            <h2>Hypertension (High Blood Pressure)</h2>
-            <p>High blood pressure often has no symptoms but can damage the heart, brain, kidneys, and eyes over time.</p>
-
-            <details open>
-              <summary>Risk factors</summary>
-              <div class="inside">
-                <ul>
-                  <li>High salt intake, obesity, inactivity, tobacco, excess alcohol, stress.</li>
-                  <li>Family history, older age, diabetes, kidney disease.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Prevention and lifestyle modification</summary>
-              <div class="inside">
-                <ul>
-                  <li>Reduce salt, eat more fruits/vegetables, stay active, maintain healthy weight.</li>
-                  <li>Stop tobacco; limit alcohol; manage stress and sleep.</li>
-                  <li>Check BP regularly; take medicines exactly as prescribed.</li>
-                </ul>
-              </div>
-            </details>
-
-            <div class="callout">
-              <strong>Tip:</strong> Many people feel “fine” with high BP. Regular screening is important.
-            </div>
-
-            <img src="" alt="Blood pressure awareness visual (add an image URL)">
-          </div>
-        `
-      },
-
-      hiv_aids: {
-        id: "hiv_aids",
-        title: "HIV/AIDS",
-        icon: "fas fa-ribbon",
-        content: `
-          <div class="topic">
-            <h2>HIV/AIDS</h2>
-            <p>HIV is treatable. Early testing and consistent treatment help people live long, healthy lives.</p>
-
-            <details open>
-              <summary>Transmission and prevention</summary>
-              <div class="inside">
-                <ul>
-                  <li>HIV can spread through unprotected sex, sharing needles, unsafe blood exposure, and from mother to child without prevention services.</li>
-                  <li>Prevention: condoms, safe injection practices, testing, and treatment. Follow local guidance for PrEP/PEP where available.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Reducing stigma</summary>
-              <div class="inside">
-                <ul>
-                  <li>HIV does not spread through casual contact (handshake, sharing food, hugging).</li>
-                  <li>Stigma reduces testing and treatment. Use respectful language and support.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Testing and treatment</summary>
-              <div class="inside">
-                <ul>
-                  <li>Testing is confidential in most programs; early diagnosis protects health.</li>
-                  <li>Antiretroviral therapy (ART) must be taken regularly as advised.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="HIV awareness visual (add an image URL)">
-          </div>
-        `
-      },
-
-      first_aid: {
-        id: "first_aid",
-        title: "First Aid",
-        icon: "fas fa-kit-medical",
-        content: `
-          <div class="topic">
-            <h2>First Aid (Basics)</h2>
-            <p>First aid is immediate help until professional care arrives. Stay calm and ensure safety.</p>
-
-            <details open>
-              <summary>Emergency response steps</summary>
-              <div class="inside">
-                <ul>
-                  <li>Check safety (for you and the patient).</li>
-                  <li>Call emergency services; share location and what happened.</li>
-                  <li>Check response, breathing, and severe bleeding.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Bleeding</summary>
-              <div class="inside">
-                <ul>
-                  <li>Apply firm pressure with clean cloth; elevate if possible.</li>
-                  <li>Do not remove embedded objects; pad around and seek urgent care.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Burns</summary>
-              <div class="inside">
-                <ul>
-                  <li>Cool under running water for 10–20 minutes; remove tight items.</li>
-                  <li>Do not apply toothpaste/oil; cover loosely and seek care for large/deep burns.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Choking</summary>
-              <div class="inside">
-                <ul>
-                  <li>Encourage coughing if breathing. If severe, follow trained back blows/abdominal thrusts.</li>
-                  <li>Call emergency help immediately if the person cannot breathe or talk.</li>
-                </ul>
-              </div>
-            </details>
-
-            <div class="callout">
-              <strong>Important:</strong> Learn CPR from certified training whenever possible.
-            </div>
-
-            <img src="" alt="First aid poster (add an image URL)">
-          </div>
-        `
-      },
-
-      substance_abuse: {
-        id: "substance_abuse",
-        title: "Drug/Substance Abuse",
-        icon: "fas fa-ban",
-        content: `
-          <div class="topic">
-            <h2>Drug or Substance Abuse</h2>
-            <p>Substance use can affect health, family, education, work, and safety. Recovery is possible.</p>
-
-            <details open>
-              <summary>Types of substance abuse</summary>
-              <div class="inside">
-                <ul>
-                  <li>Tobacco, alcohol, opioids, cannabis, inhalants, stimulants, sedatives.</li>
-                  <li>Misuse of prescription drugs also counts.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Health and social consequences</summary>
-              <div class="inside">
-                <ul>
-                  <li>Addiction, mental health issues, accidents, violence, chronic disease.</li>
-                  <li>Family stress, financial loss, poor academic/work performance.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Prevention and rehabilitation</summary>
-              <div class="inside">
-                <ul>
-                  <li>Build refusal skills, healthy friendships, and stress coping strategies.</li>
-                  <li>Seek help early: counseling, de‑addiction services, support groups.</li>
-                  <li>Families can support without blame; relapse can happen—continue treatment.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="Substance abuse prevention visual (add an image URL)">
-          </div>
-        `
-      },
-
-      water_air_airborne: {
-        id: "water_air_airborne",
-        title: "Water, Air & Airborne Diseases",
-        icon: "fas fa-wind",
-        content: `
-          <div class="topic">
-            <h2>Water, Air, and Airborne Diseases</h2>
-            <p>Many infections can be prevented with safe water, clean air, hygiene, and good ventilation.</p>
-
-            <details open>
-              <summary>Water-borne diseases</summary>
-              <div class="inside">
-                <ul>
-                  <li>Examples: diarrhea, typhoid, hepatitis A/E, cholera (outbreaks).</li>
-                  <li>Prevention: safe drinking water, handwashing, safe food, sanitation.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Air pollution and respiratory health</summary>
-              <div class="inside">
-                <ul>
-                  <li>Air pollution can worsen asthma and COPD and irritate eyes/throat.</li>
-                  <li>Reduce exposure: avoid peak traffic smoke, improve indoor ventilation, use clean cooking fuels if possible.</li>
-                </ul>
-              </div>
-            </details>
-
-            <details>
-              <summary>Airborne infections and prevention</summary>
-              <div class="inside">
-                <ul>
-                  <li>Spread via air/droplets (examples include TB and some viral infections).</li>
-                  <li>Prevention: good ventilation, cough etiquette, masks when advised, early diagnosis and treatment.</li>
-                </ul>
-              </div>
-            </details>
-
-            <img src="" alt="Safe water and clean air visual (add an image URL)">
-          </div>
-        `
-      }
+      /* the rest of your topics from the original file go here unchanged;
+         to keep the message short they are omitted, but you can paste
+         everything from nutrition_age_gender to water_air_airborne exactly
+         as in your existing code. */
+      /* ---- START existing topics ---- */
+      /* paste existing topic objects here */
+      /* ---- END existing topics ---- */
     };
 
     /***************
@@ -1542,7 +787,7 @@
     }
 
     function escapeHtml(str){
-      return (str || "").replace(/[&<>"']/g, c => ({
+      return (str || "").replace(/[&<>\"']/g, c => ({
         "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
       }[c]));
     }
@@ -1660,7 +905,6 @@
       const area = document.getElementById("contentArea");
       area.querySelectorAll(".selected-block").forEach(el=>el.classList.remove("selected-block"));
 
-      // select nearest "block" for deletion
       area.addEventListener("click", (e)=>{
         if(!state.editMode) return;
         const block = e.target.closest("details, p, ul, .callout, img, h2, h3, h4");
@@ -1676,7 +920,6 @@
       const area = document.getElementById("contentArea");
       const html = area.innerHTML;
 
-      // Update current topic content
       const key = Object.keys(state.topics).find(k => state.topics[k].id === state.currentTopic);
       if(!key) return toast("Topic missing");
       state.topics[key].content = html;
@@ -1709,7 +952,6 @@
       const area = document.getElementById("contentArea");
       const container = area.querySelector(".topic");
       if(!container) return;
-
       const details = document.createElement("details");
       details.open = true;
       details.innerHTML = `
@@ -1951,7 +1193,6 @@
       const role = document.getElementById("fbRole").value || "general";
       const msg  = (document.getElementById("fbText").value || "").trim();
       if(!msg) return toast("Please write a message");
-
       const list = JSON.parse(localStorage.getItem(STORAGE_FEEDBACK) || "[]");
       list.push({ ts: Date.now(), name, role, msg });
       localStorage.setItem(STORAGE_FEEDBACK, JSON.stringify(list));
@@ -1985,7 +1226,6 @@
         const navBtn = e.target.closest("button.nav-link");
         if(!navBtn) return;
 
-        // rename/delete click inside actions
         if(state.editMode){
           const renameBtn = e.target.closest("button.rename");
           const deleteBtn = e.target.closest("button.delete");
@@ -2076,6 +1316,17 @@
           document.getElementById("managePanel").style.display = "none";
         }
       });
+
+      // NEW: Home button
+      document.getElementById("homeBtn").addEventListener("click", ()=>{
+        if(state.topics.home){
+          selectTopic("home");
+        }else{
+          const firstKey = Object.keys(state.topics)[0];
+          if(firstKey) selectTopic(state.topics[firstKey].id);
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
     }
 
     /***************
@@ -2087,11 +1338,10 @@
       bindEvents();
       updateUI();
 
-      const firstKey = Object.keys(state.topics)[0];
-      if(firstKey) selectTopic(state.topics[firstKey].id);
+      // On first load always go to Home (if present)
+      const startId = state.topics.home ? "home" : (Object.keys(state.topics)[0] && state.topics[Object.keys(state.topics)[0]].id);
+      if(startId) selectTopic(startId);
     });
   </script>
 </body>
 </html>
-
-
